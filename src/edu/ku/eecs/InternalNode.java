@@ -60,7 +60,7 @@ public class InternalNode extends TreeNode {
 	}
 	
 	@Override
-	public byte[] toBytes() {
+	protected byte[] flatten() {
 		int keySize = 9;
 		int ptrSize = 4;
 		ByteBuffer buff = ByteBuffer.allocate(keySize * (treeOrder - 1) + ptrSize * treeOrder);
@@ -74,6 +74,23 @@ public class InternalNode extends TreeNode {
 			buff.position(buff.position()+(ptrSize-4));
 		}
 		return buff.array();
+	}
+
+	public static TreeNode unflatten(byte[] array) {
+		int keySize = 9;
+		int ptrSize = 4;
+		ByteBuffer buff = ByteBuffer.wrap(array);
+		buff.order(ByteOrder.nativeOrder());
+		InternalNode newNode = new InternalNode();
+		newNode.pointers[0] = buff.getInt();
+		buff.position(buff.position()+(ptrSize-4));
+		for (int i=0; i<newNode.keys.length; i++) {
+			newNode.keys[i] = buff.getInt();
+			buff.position(buff.position()+(keySize-4));
+			newNode.pointers[i+1] = buff.getInt();
+			buff.position(buff.position()+(ptrSize-4));
+		}
+		return newNode;
 	}
 
 }

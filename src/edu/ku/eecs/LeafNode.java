@@ -58,7 +58,7 @@ public class LeafNode extends TreeNode {
 	}
 	
 	@Override
-	public byte[] toBytes() {
+	protected byte[] flatten() {
 		int keySize = 9;
 		int ptrSize = 6;
 		int siblingPtrSize = 4;
@@ -72,5 +72,21 @@ public class LeafNode extends TreeNode {
 		}
 		buff.putInt(siblingPtr);
 		return buff.array();
+	}
+
+	public static TreeNode unflatten(byte[] array) {
+		int keySize = 9;
+		int ptrSize = 6;
+		ByteBuffer buff = ByteBuffer.wrap(array);
+		buff.order(ByteOrder.nativeOrder());
+		LeafNode leaf = new LeafNode();
+		for (int i=0; i<leaf.keys.length; i++) {
+			leaf.keys[i] = buff.getInt();
+			buff.position(buff.position()+(keySize-4));
+			leaf.pointers[i] = buff.getInt();
+			buff.position(buff.position()+(ptrSize-4));
+		}
+		leaf.siblingPtr = buff.getInt();
+		return leaf;
 	}
 }

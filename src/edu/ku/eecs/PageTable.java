@@ -65,6 +65,17 @@ public class PageTable {
 		}
 
 	}
+	
+	public int getNewPage() throws Exception {
+		Integer freeIndex = free.poll();
+		used.add(freeIndex);
+		if (freeIndex == null) {
+			throw new Exception();
+
+		} else {
+			return freeIndex;
+		}
+	}
 
 	/**
 	 * 
