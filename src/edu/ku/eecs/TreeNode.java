@@ -48,4 +48,8 @@ public abstract class TreeNode {
 		}
 		throw new Exception();
 	}
+	
+	public TreeNode getNode(int pageID) throws Exception {
+		return fromBytes(pages.getIndexedPage(pageID).contents);
+	}
 }

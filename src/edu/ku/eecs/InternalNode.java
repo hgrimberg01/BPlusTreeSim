@@ -30,13 +30,11 @@ public class InternalNode extends TreeNode {
 	public int search(int key) throws Exception {
 		for (int i=0; i<keys.length;i++) {
 			if (key <= keys[i]) {
-				TreeNode node = TreeNode.fromBytes(pages.getIndexedPage(pointers[i]).contents);
-				return node.search(key);
+				return getNode(pointers[i]).search(key);
 			}
 		}
 		// Hasn't been found at other pointers. Search last pointer.
-		TreeNode node = TreeNode.fromBytes(pages.getIndexedPage(pointers[treeOrder -1]).contents);
-		return node.search(key);
+		return getNode(pointers[treeOrder - 1]).search(key);
 	}
 
 	/* (non-Javadoc)
