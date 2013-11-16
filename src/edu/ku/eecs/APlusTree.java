@@ -12,11 +12,12 @@ public class APlusTree {
 	
 	public APlusTree() {
 		// TODO create a new TreeNode, put it somewhere.
-		
+		LeafNode root = new LeafNode();
+		byte[] flatRoot = root.toBytes();
 	}
 	
 	public int search(int key) {
-		
+		// TODO get the page from the pageTable, reconstitute the node, and run search on it
 		return -1;
 	}
 	

@@ -3,6 +3,10 @@
  */
 package edu.ku.eecs;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.Arrays;
+
 /**
  * @author QtotheC
  *
@@ -13,8 +17,10 @@ public class InternalNode extends TreeNode {
 	
 	public InternalNode()
 	{
-		keys = new int[2];
-		pointers = new int[3];
+		keys = new int[treeOrder-1];
+		Arrays.fill(keys, -1);
+		pointers = new int[treeOrder];
+		Arrays.fill(pointers, -1);
 	}
 
 	/* (non-Javadoc)
@@ -22,8 +28,11 @@ public class InternalNode extends TreeNode {
 	 */
 	@Override
 	public int search(int key) {
-		// TODO Auto-generated method stub
-		
+		for (int i=0; i<keys.length;i++) {
+			if (key <= keys[i]) {
+				// TODO get the node at pointers[i] and search it
+			}
+		}
 		return 0;
 	}
 
@@ -48,6 +57,23 @@ public class InternalNode extends TreeNode {
 	@Override
 	public boolean isLeaf() {
 		return false;
+	}
+	
+	@Override
+	public byte[] toBytes() {
+		int keySize = 9;
+		int ptrSize = 4;
+		ByteBuffer buff = ByteBuffer.allocate(keySize * (treeOrder - 1) + ptrSize * treeOrder);
+		buff.order(ByteOrder.nativeOrder());
+		buff.putInt(pointers[0]);
+		buff.position(buff.position()+(ptrSize-4));
+		for (int i=0; i<keys.length; i++) {
+			buff.putInt(keys[i]);
+			buff.position(buff.position()+(keySize-4));
+			buff.putInt(pointers[i+1]);
+			buff.position(buff.position()+(ptrSize-4));
+		}
+		return buff.array();
 	}
 
 }
