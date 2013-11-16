@@ -13,7 +13,8 @@ public class InternalNode extends TreeNode {
 	
 	public InternalNode()
 	{
-		
+		keys = new int[2];
+		pointers = new int[3];
 	}
 
 	/* (non-Javadoc)
@@ -22,6 +23,7 @@ public class InternalNode extends TreeNode {
 	@Override
 	public int search(int key) {
 		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 

@@ -8,9 +8,12 @@ package edu.ku.eecs;
  *
  */
 public abstract class TreeNode {
+	protected int numElements;
+	protected int treeOrder;
 	
 	public TreeNode() {
-		
+		numElements = 0;
+		treeOrder = 3;
 	}
 	
 	public abstract int search(int key);
