@@ -16,13 +16,14 @@ public abstract class TreeNode {
 	protected int[] keys;
 	protected int[] pointers;
 	protected int treeOrder;
+	protected PageTable pages; // TODO somehow this has to get information
 	
 	public TreeNode() {
 		numElements = 0;
 		treeOrder = 3;
 	}
 	
-	public abstract int search(int key);
+	public abstract int search(int key) throws Exception;
 	
 	public abstract void insert(int key, int value);
 	

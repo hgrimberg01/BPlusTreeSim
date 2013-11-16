@@ -27,13 +27,16 @@ public class InternalNode extends TreeNode {
 	 * @see edu.ku.eecs.TreeNode#search(int)
 	 */
 	@Override
-	public int search(int key) {
+	public int search(int key) throws Exception {
 		for (int i=0; i<keys.length;i++) {
 			if (key <= keys[i]) {
-				// TODO get the node at pointers[i] and search it
+				TreeNode node = TreeNode.fromBytes(pages.getIndexedPage(pointers[i]).contents);
+				return node.search(key);
 			}
 		}
-		return 0;
+		// Hasn't been found at other pointers. Search last pointer.
+		TreeNode node = TreeNode.fromBytes(pages.getIndexedPage(pointers[treeOrder -1]).contents);
+		return node.search(key);
 	}
 
 	/* (non-Javadoc)
