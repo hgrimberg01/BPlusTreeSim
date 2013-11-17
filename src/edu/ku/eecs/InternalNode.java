@@ -138,7 +138,57 @@ public class InternalNode extends TreeNode {
 					iterator++;
 				}
 			}
-			// TODO reconnect pointers. I last stopped working here 12:20 AM, 11/17
+			iterator = 0;
+			for (int i=0; i<=treeOrder+1; i++) { // reconnect pointers
+				if (i == pushupInsertIndex) {
+					if (i <= nodeTransitionIndex) {
+						leftNode.pointers()[i] = e.tinyPtr;
+					}
+					else {
+						rightNode.pointers()[i-nodeTransitionIndex-1] = e.tinyPtr;
+					}
+				}
+				else if (i == pushupInsertIndex+1) {
+					if (i <= nodeTransitionIndex) {
+						leftNode.pointers()[i] = e.bigPtr;
+					}
+					else {
+						rightNode.pointers()[i-nodeTransitionIndex-1] = e.bigPtr;
+					}
+					// TODO: destroy page for current target.pointers()[iterator] value?
+					iterator++;
+				}
+				else {
+					if (i <= nodeTransitionIndex) {
+						leftNode.pointers()[i] = target.pointers()[iterator];
+					}
+					else {
+						rightNode.pointers()[i-nodeTransitionIndex-1] = target.pointers()[iterator];
+					}
+					iterator++;
+				}
+			}
+			int leftPage = pages.getNewPage(); Page leftPg = pages.getIndexedPage(leftPage);
+			int rightPage = pages.getNewPage(); Page rightPg = pages.getIndexedPage(rightPage);
+			leftPg.contents = Arrays.copyOf(leftNode.toBytes(), leftPg.contents.length);
+			rightPg.contents = Arrays.copyOf(rightNode.toBytes(), rightPg.contents.length);
+			
+			// push up the new pointers
+			if (isFull()) {
+				// no more room in this internal node. Need to propagate split up.
+				throw new InternalNodeFullException(leftPage, leftNode, rightPage, rightNode);
+			}
+			else {
+				for (int i=numElements()-1; i > insertIndex; i--) { // shift values down to make room for insertion
+					keys[i+1] = keys[i];
+					pointers[i+1] = pointers[i];
+				}
+				keys[insertIndex] = leftNode.keys()[leftNode.numElements()-1];
+				leftNode.keys()[leftNode.numElements()-1] = -1; // TODO delete this key after it's been pushed up, or leave it?
+				pointers[insertIndex] = leftPage;
+				pointers[insertIndex+1] = rightPage;
+				pages.deletePage(targetPtr); // delete the now orphaned node
+			}
 		}
 	}
 
