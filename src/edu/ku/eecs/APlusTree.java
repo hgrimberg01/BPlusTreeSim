@@ -75,7 +75,7 @@ public class APlusTree {
 					}
 				}
 				if (insertIndex <= Math.floor(treeOrder/2)) {
-					tinyLeaf.keys()[insertIndex] = key;
+					tinyLeaf.keys()[insertIndex] = key; // TODO need to verify that these indices are correct. I think I made a mistake.
 					tinyLeaf.pointers()[insertIndex] = value;
 				}
 				else {

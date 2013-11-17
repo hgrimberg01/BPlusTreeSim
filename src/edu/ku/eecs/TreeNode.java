@@ -12,7 +12,6 @@ import java.util.Arrays;
  *
  */
 public abstract class TreeNode {
-	protected int numElements;
 	protected int[] keys;
 	protected int[] pointers;
 	protected int treeOrder;
@@ -20,7 +19,6 @@ public abstract class TreeNode {
 	protected boolean isRoot;
 	
 	public TreeNode(PageTable pages, int order) {
-		numElements = 0;
 		treeOrder = order;
 		isRoot = false;
 	}
@@ -67,9 +65,9 @@ public abstract class TreeNode {
 	public void isRoot(boolean root) { isRoot = root; }
 	public boolean isRoot() { return isRoot; }
 	
-	public int numElements() { return numElements; }
+	public abstract int numElements();
 	public boolean isFull() {
-		return numElements >= treeOrder;
+		return numElements() >= treeOrder;
 	}
 	
 	public int[] keys() { return keys; }

@@ -90,10 +90,12 @@ public class InternalNode extends TreeNode {
 			// push up the new pointers
 			if (isFull()) {
 				// no more room in this internal node. Need to propagate split up.
-				throw new InternalNodeFullException();
+				throw new InternalNodeFullException(
+						tinyPage, tinyLeaf, bigPage, bigLeaf
+						);
 			}
 			else {
-				for (int i=numElements-1; i > insertIndex; i--) { // shift values down to make room for insertion
+				for (int i=numElements()-1; i > insertIndex; i--) { // shift values down to make room for insertion
 					keys[i+1] = keys[i];
 					pointers[i+1] = pointers[i];
 				}
@@ -108,7 +110,35 @@ public class InternalNode extends TreeNode {
 			// split the internal node
 			InternalNode leftNode = new InternalNode(pages, treeOrder);
 			InternalNode rightNode = new InternalNode(pages, treeOrder);
-			
+			int pushedUpKey = e.tinyNode.keys()[e.tinyNode.numElements()-1]; // biggest element of left side split node
+			int pushupInsertIndex = target.numElements();
+			for (int i=0; i<target.keys().length; i++) {
+				if (target.keys()[i] >= pushedUpKey || target.keys()[i] == -1) {
+					pushupInsertIndex = i;
+				}
+			}
+			int nodeTransitionIndex = (int) Math.ceil(treeOrder/2); // the index after which keys are put in rightNode
+			int iterator = 0;
+			for (int i=0; i<=treeOrder; i++) {
+				if (i == pushupInsertIndex) {
+					if (i <= nodeTransitionIndex) {
+						leftNode.keys()[i] = pushedUpKey;
+					}
+					else {
+						rightNode.keys()[i-nodeTransitionIndex-1] = pushedUpKey;
+					}
+				}
+				else {
+					if (i <= nodeTransitionIndex) {
+						leftNode.keys()[i] = target.keys()[iterator];
+					}
+					else {
+						rightNode.keys()[i-nodeTransitionIndex-1] = target.keys()[iterator];
+					}
+					iterator++;
+				}
+			}
+			// TODO reconnect pointers. I last stopped working here 12:20 AM, 11/17
 		}
 	}
 
@@ -166,7 +196,17 @@ public class InternalNode extends TreeNode {
 				return i;
 			}
 		}
-		return numElements;
+		return numElements();
+	}
+
+	@Override
+	public int numElements() {
+		int counter =0;
+		for (int i=0; i<pointers.length; i++) {
+			if (pointers[i] != -1) counter++;
+			else break;
+		}
+		return counter;
 	}
 
 }
