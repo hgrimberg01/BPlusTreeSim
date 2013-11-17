@@ -183,7 +183,7 @@ public class InternalNode extends TreeNode {
 					keys[i+1] = keys[i];
 					pointers[i+1] = pointers[i];
 				}
-				keys[insertIndex] = leftNode.keys()[leftNode.numElements()-1];
+				keys[insertIndex] = leftNode.keys()[leftNode.numElements()-1]; // push up largest value in left node
 				leftNode.keys()[leftNode.numElements()-1] = -1; // TODO delete this key after it's been pushed up, or leave it?
 				pointers[insertIndex] = leftPage;
 				pointers[insertIndex+1] = rightPage;
