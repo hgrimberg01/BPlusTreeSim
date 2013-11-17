@@ -4,6 +4,8 @@
 package edu.ku.eecs;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @author QtotheC
@@ -32,6 +34,47 @@ public class APlusTree {
 	
 	public void delete(int key) {
 		
+	}
+	
+	public String levelOrderTraverse() throws Exception {
+		String output = "";
+		Page p = pages.getIndexedPage(rootPage);
+		TreeNode root = TreeNode.fromBytes(p.contents, pages, treeOrder);
+		Queue<TreeNode> curLevel = new LinkedList<TreeNode>();
+		curLevel.add(root);
+		Queue<TreeNode> nextLevel = new LinkedList<TreeNode>();
+		do {
+			Queue<String> curLine = new LinkedList<String>();
+			while (!curLevel.isEmpty()) {
+				TreeNode curNode = curLevel.poll();
+				if (!curNode.isLeaf()) {
+					curLine.add(String.valueOf(curNode.pointers()[0]));
+					nextLevel.add(curNode.getNode(curNode.pointers()[0]));
+					for (int i=0; i<curNode.numElements()-1; i++) {
+						curLine.add(
+								curNode.keys()[i] + "(" + curNode.pointers()[i+1] + ")"
+								);
+						nextLevel.add(curNode.getNode(curNode.pointers()[i+1]));
+					}
+				}
+				else {
+					for (int i=0; i<curNode.numElements(); i++) {
+						curLine.add(
+								curNode.keys()[i] + "(" + curNode.pointers()[i] + ")"
+								);
+					}
+				}
+				while (!curLine.isEmpty()) {
+					output += curLine.poll();
+					if (!curLine.isEmpty()) output+= ", ";
+				}
+				output += "\n";
+			}
+			curLevel = nextLevel;
+			nextLevel = new LinkedList<TreeNode>();
+		}
+		while(!curLevel.isEmpty());
+		return output;
 	}
 	
 	public void insert(int key, int value) throws Exception { // catch KeyExistsException to detect if key already exists
@@ -104,6 +147,8 @@ public class APlusTree {
 						iterator++;
 					}
 				}
+				int pushKey = leftNode.keys()[leftNode.numElements()-1];
+				leftNode.keys()[leftNode.numElements()-1] = -1;
 				int leftPage = pages.getNewPage(); Page leftPg = pages.getIndexedPage(leftPage);
 				int rightPage = pages.getNewPage(); Page rightPg = pages.getIndexedPage(rightPage);
 				leftPg.contents = Arrays.copyOf(leftNode.toBytes(), leftPg.contents.length);
@@ -111,7 +156,7 @@ public class APlusTree {
 				
 				root = new InternalNode(pages, treeOrder);
 				root.isRoot(true);
-				root.keys()[0] = leftNode.keys()[leftNode.numElements()-1]; // push up key
+				root.keys()[0] = pushKey; // push up key
 				root.pointers()[0] = leftPage; // push up the new pointers
 				root.pointers()[1] = rightPage;
 				p.contents = Arrays.copyOf(root.toBytes(), p.contents.length);

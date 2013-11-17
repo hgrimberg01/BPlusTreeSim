@@ -64,6 +64,17 @@ public class APlusTreeTest {
 		for (int i=0; i<addQueue.length; i++) {
 			assertEquals(treeUnderTest.search(addQueue[i]), addQueue[i]+1);
 		}
+		
+		// Test adding two more elements. This should cause another split.
+		addQueue = new int[] { 11, 12 };
+		for (int i=0; i<addQueue.length; i++) {
+			treeUnderTest.insert(addQueue[i], addQueue[i]+1);
+		}
+		for (int i=0; i<addQueue.length; i++) {
+			assertEquals(treeUnderTest.search(addQueue[i]), addQueue[i]+1);
+		}
+		
+		System.out.println(treeUnderTest.levelOrderTraverse());
 	}
 
 	/**
