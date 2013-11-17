@@ -12,8 +12,6 @@ import java.util.Arrays;
  *
  */
 public class InternalNode extends TreeNode {
-	private int[] keys;
-	private int[] pointers;
 	
 	public InternalNode(PageTable pages, int order)
 	{
@@ -30,7 +28,7 @@ public class InternalNode extends TreeNode {
 	@Override
 	public int search(int key) throws Exception {
 		for (int i=0; i<keys.length;i++) {
-			if (key <= keys[i]) {
+			if (key <= keys[i] || keys[i] == -1) {
 				return getNode(pointers[i]).search(key);
 			}
 		}
@@ -95,7 +93,7 @@ public class InternalNode extends TreeNode {
 						);
 			}
 			else {
-				for (int i=numElements()-1; i > insertIndex; i--) { // shift values down to make room for insertion
+				for (int i=numElements()-1; i >= insertIndex; i--) { // shift values down to make room for insertion
 					keys[i+1] = keys[i];
 					pointers[i+1] = pointers[i];
 				}
@@ -179,7 +177,7 @@ public class InternalNode extends TreeNode {
 				throw new InternalNodeFullException(leftPage, leftNode, rightPage, rightNode);
 			}
 			else {
-				for (int i=numElements()-1; i > insertIndex; i--) { // shift values down to make room for insertion
+				for (int i=numElements()-1; i >= insertIndex; i--) { // shift values down to make room for insertion
 					keys[i+1] = keys[i];
 					pointers[i+1] = pointers[i];
 				}

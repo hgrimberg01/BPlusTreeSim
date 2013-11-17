@@ -28,6 +28,7 @@ public class PageTable {
 	 * @param pageSize
 	 */
 	public PageTable(int numOfPages, int pageSize) {
+		pages = new Page[numOfPages];
 
 		free = new LinkedList<Integer>();
 		used = new LinkedList<Integer>();
@@ -43,6 +44,11 @@ public class PageTable {
 	 * @param numOfPages
 	 */
 	public PageTable(int numOfPages) {
+		pages = new Page[numOfPages];
+
+		free = new LinkedList<Integer>();
+		used = new LinkedList<Integer>();
+		
 		for (int i = 0; i < numOfPages; i++) {
 			pages[i] = new Page(500);
 			free.add(new Integer(i));

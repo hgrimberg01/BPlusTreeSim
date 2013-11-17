@@ -44,9 +44,10 @@ public class LeafNode extends TreeNode {
 				if (keys[i] >= key || keys[i] == -1) {
 					if (keys[i] == key) throw new KeyExistsException();
 					insertIndex = i;
+					break;
 				}
 			}
-			for (int i=numElements()-1; i > insertIndex; i--) { // shift values down to make room for insertion
+			for (int i=numElements()-1; i >= insertIndex; i--) { // shift values down to make room for insertion
 				keys[i+1] = keys[i];
 				pointers[i+1] = pointers[i];
 			}

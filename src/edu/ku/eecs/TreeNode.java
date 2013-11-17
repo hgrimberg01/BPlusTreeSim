@@ -19,6 +19,7 @@ public abstract class TreeNode {
 	protected boolean isRoot;
 	
 	public TreeNode(PageTable pages, int order) {
+		this.pages = pages;
 		treeOrder = order;
 		isRoot = false;
 	}
