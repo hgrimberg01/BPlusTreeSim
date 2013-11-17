@@ -39,8 +39,13 @@ public class APlusTree {
 		TreeNode root = TreeNode.fromBytes(p.contents, pages, treeOrder);
 		// TODO search to make sure it doesn't already exist?
 		if (!root.isLeaf()) {
-			// TODO handle case where root is not a leaf
-			
+			// find insertion point
+			InternalNode node = (InternalNode)root;
+			int insertIndex = node.insertionPoint(key);
+			TreeNode target = node.getNode(node.pointers()[insertIndex]);
+			target.insert(key, value);
+			Page targetPage = pages.getIndexedPage(node.pointers()[insertIndex]);
+			targetPage.contents = Arrays.copyOf(target.toBytes(), targetPage.contents.length);
 		}
 		else { // root node is a leaf node
 			if (!root.isFull()) {
@@ -89,6 +94,7 @@ public class APlusTree {
 				}
 				int tinyPage = pages.getNewPage(); Page tinyPg = pages.getIndexedPage(tinyPage);
 				int bigPage = pages.getNewPage(); Page bigPg = pages.getIndexedPage(bigPage);
+				tinyLeaf.siblingPtr(bigPage);
 				tinyPg.contents = Arrays.copyOf(tinyLeaf.toBytes(), tinyPg.contents.length);
 				bigPg.contents = Arrays.copyOf(bigLeaf.toBytes(), bigPg.contents.length);
 				root.keys()[0] = tinyLeaf.keys()[tinyLeaf.numElements()-1]; // push up the largest key of the left most node to the root

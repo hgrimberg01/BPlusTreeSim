@@ -34,15 +34,15 @@ public class LeafNode extends TreeNode {
 
 	@Override
 	public void insert(int key, int value) throws Exception {
-		if (numElements > keys.length -1) {
+		if (numElements >= keys.length) {
 			// no more room for insertion
-			throw new Exception("Leaf is full.");
+			throw new LeafNodeFullException();
 		}
 		else {
 			int insertIndex = numElements;
 			for (int i=0; i<numElements; i++) {
 				if (keys[i] >= key || keys[i] == -1) {
-					if (keys[i] == key) throw new Exception("Value already exists.");
+					if (keys[i] == key) throw new KeyExistsException();
 					insertIndex = i;
 				}
 			}
@@ -99,4 +99,7 @@ public class LeafNode extends TreeNode {
 		}
 		siblingPtr = buff.getInt();
 	}
+	
+	public int siblingPtr() { return siblingPtr; }
+	public void siblingPtr(int ptr) { siblingPtr = ptr; }
 }

@@ -69,15 +69,7 @@ public abstract class TreeNode {
 	
 	public int numElements() { return numElements; }
 	public boolean isFull() {
-		if (isLeaf()) {
-			// leaf node is full if there are order - 1 elements
-			// unless it is the root node, which is full with order elements
-			if (isRoot()) { return numElements >= treeOrder; }
-			else { return numElements >= treeOrder - 1; }
-		}
-		else {
-			return numElements >= treeOrder;
-		}
+		return numElements >= treeOrder;
 	}
 	
 	public int[] keys() { return keys; }

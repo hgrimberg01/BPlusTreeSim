@@ -42,9 +42,74 @@ public class InternalNode extends TreeNode {
 	 * @see edu.ku.eecs.TreeNode#insert(int, int)
 	 */
 	@Override
-	public void insert(int key, int value) {
-		// TODO Auto-generated method stub
-
+	public void insert(int key, int value) throws Exception {
+		int insertIndex = insertionPoint(key);
+		TreeNode target = getNode(pointers[insertIndex]);
+		int targetPtr = pointers[insertIndex];
+		try {
+			target.insert(key, value);
+		}
+		catch (LeafNodeFullException e) {
+			// need to split node
+			LeafNode tinyLeaf = new LeafNode(pages, treeOrder);
+			LeafNode bigLeaf = new LeafNode(pages, treeOrder);
+			for (int i=0; i< insertIndex; i++) { // add all keys before insertion point
+				if (i <= Math.floor(treeOrder/2)) {
+					tinyLeaf.keys()[i] = target.keys()[i];
+					tinyLeaf.pointers()[i] = target.pointers()[i];
+				}
+				else {
+					bigLeaf.keys()[i] = target.keys()[i];
+					bigLeaf.pointers()[i] = target.pointers()[i];
+				}
+			}
+			if (insertIndex <= Math.floor(treeOrder/2)) {
+				tinyLeaf.keys()[insertIndex] = key;
+				tinyLeaf.pointers()[insertIndex] = value;
+			}
+			else {
+				bigLeaf.keys()[insertIndex] = key;
+				bigLeaf.pointers()[insertIndex] = value;
+			}
+			for (int i=insertIndex; i<target.keys().length; i++) { // add all keys after insertion point
+				if (i+1 <= Math.floor(treeOrder/2)) {
+					tinyLeaf.keys()[i+1] = target.keys()[i];
+					tinyLeaf.pointers()[i+1] = target.pointers()[i];
+				}
+				else {
+					bigLeaf.keys()[i+1] = target.keys()[i];
+					bigLeaf.pointers()[i+1] = target.pointers()[i];
+				}
+			}
+			int tinyPage = pages.getNewPage(); Page tinyPg = pages.getIndexedPage(tinyPage);
+			int bigPage = pages.getNewPage(); Page bigPg = pages.getIndexedPage(bigPage);
+			tinyLeaf.siblingPtr(bigPage);
+			tinyPg.contents = Arrays.copyOf(tinyLeaf.toBytes(), tinyPg.contents.length);
+			bigPg.contents = Arrays.copyOf(bigLeaf.toBytes(), bigPg.contents.length);
+			
+			// push up the new pointers
+			if (isFull()) {
+				// no more room in this internal node. Need to propagate split up.
+				throw new InternalNodeFullException();
+			}
+			else {
+				for (int i=numElements-1; i > insertIndex; i--) { // shift values down to make room for insertion
+					keys[i+1] = keys[i];
+					pointers[i+1] = pointers[i];
+				}
+				keys[insertIndex] = tinyLeaf.keys()[tinyLeaf.numElements()-1];
+				pointers[insertIndex] = tinyPage;
+				pointers[insertIndex+1] = bigPage;
+				pages.deletePage(targetPtr); // delete the now orphaned node
+			}
+		}
+		catch (InternalNodeFullException e) {
+			// TODO handle internal node full
+			// split the internal node
+			InternalNode leftNode = new InternalNode(pages, treeOrder);
+			InternalNode rightNode = new InternalNode(pages, treeOrder);
+			
+		}
 	}
 
 	/* (non-Javadoc)
@@ -92,6 +157,16 @@ public class InternalNode extends TreeNode {
 			pointers[i+1] = buff.getInt();
 			buff.position(buff.position()+(ptrSize-4));
 		}
+	}
+	
+	public int insertionPoint(int key) throws KeyExistsException {
+		for (int i=0; i<keys.length; i++ ) {
+			if (keys[i] >= key || keys[i] == -1) {
+				if (keys[i] == key) throw new KeyExistsException();
+				return i;
+			}
+		}
+		return numElements;
 	}
 
 }
