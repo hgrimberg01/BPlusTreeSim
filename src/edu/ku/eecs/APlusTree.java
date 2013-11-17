@@ -43,11 +43,11 @@ public class APlusTree {
 		Queue<TreeNode> curLevel = new LinkedList<TreeNode>();
 		curLevel.add(root);
 		Queue<TreeNode> nextLevel = new LinkedList<TreeNode>();
+		Queue<String> curLine = new LinkedList<String>();
 		do {
-			Queue<String> curLine = new LinkedList<String>();
 			while (!curLevel.isEmpty()) {
 				TreeNode curNode = curLevel.poll();
-				if (!curNode.isLeaf()) {
+				if (!curNode.isLeaf()) { // node is not a leaf
 					curLine.add(String.valueOf(curNode.pointers()[0]));
 					nextLevel.add(curNode.getNode(curNode.pointers()[0]));
 					for (int i=0; i<curNode.numElements()-1; i++) {
@@ -57,7 +57,7 @@ public class APlusTree {
 						nextLevel.add(curNode.getNode(curNode.pointers()[i+1]));
 					}
 				}
-				else {
+				else { // node is a leaf
 					for (int i=0; i<curNode.numElements(); i++) {
 						curLine.add(
 								curNode.keys()[i] + "(" + curNode.pointers()[i] + ")"

@@ -5,6 +5,9 @@ package edu.ku.eecs;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -127,6 +130,28 @@ public class APlusTreeTest {
 		System.out.println(treeUnderTest.levelOrderTraverse());
 		for (int i=0; i<numElements; i++) {
 			assertEquals(treeUnderTest.search(i), i+1);
+		}
+	}
+	
+	/**
+	 * Test method for {@link edu.ku.eecs.APlusTree#insert(int, int)}.
+	 * @throws Exception 
+	 */
+	@Test
+	public void testRandomInsert() throws Exception {
+		// Test adding 18 elements, random order
+		int numElements = 18;
+		ArrayList<Integer> list = new ArrayList<Integer>(numElements);
+		for (int i=0; i<numElements; i++) {
+			list.add(i);
+		}
+		Collections.shuffle(list);
+		for (int i=0; i<numElements; i++) {
+			treeUnderTest.insert(list.get(i), list.get(i)+1);
+		}
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		for (int i=0; i<numElements; i++) {
+			assertEquals(treeUnderTest.search(list.get(i)), list.get(i)+1);
 		}
 	}
 
