@@ -20,7 +20,8 @@ public class APlusTree {
 		LeafNode root = new LeafNode(pages, treeOrder);
 		byte[] flatRoot = root.toBytes();
 		rootPage = pages.getNewPage();
-		pages.getIndexedPage(rootPage).contents = flatRoot;
+		Page rootPg = pages.getIndexedPage(rootPage);
+		rootPg.contents = Arrays.copyOf(flatRoot, rootPg.contents.length);
 	}
 	
 	public int search(int key) throws Exception {
@@ -38,13 +39,14 @@ public class APlusTree {
 		TreeNode root = TreeNode.fromBytes(p.contents, pages, treeOrder);
 		// TODO search to make sure it doesn't already exist?
 		if (!root.isLeaf()) {
+			// TODO handle case where root is not a leaf
 			
 		}
 		else { // root node is a leaf node
 			if (!root.isFull()) {
 				// root is not full, add element to root.
 				root.insert(key, value);
-				p.contents = root.toBytes();
+				p.contents = Arrays.copyOf(root.toBytes(), p.contents.length);
 			}
 			else {
 				// root is full. (elements = order). Split and add a new root.
@@ -85,14 +87,14 @@ public class APlusTree {
 						bigLeaf.pointers()[i+1] = root.pointers()[i];
 					}
 				}
-				int tinyPage = pages.getNewPage();
-				int bigPage = pages.getNewPage();
-				pages.getIndexedPage(tinyPage).contents = tinyLeaf.toBytes();
-				pages.getIndexedPage(bigPage).contents = bigLeaf.toBytes();
+				int tinyPage = pages.getNewPage(); Page tinyPg = pages.getIndexedPage(tinyPage);
+				int bigPage = pages.getNewPage(); Page bigPg = pages.getIndexedPage(bigPage);
+				tinyPg.contents = Arrays.copyOf(tinyLeaf.toBytes(), tinyPg.contents.length);
+				bigPg.contents = Arrays.copyOf(bigLeaf.toBytes(), bigPg.contents.length);
 				root.keys()[0] = tinyLeaf.keys()[tinyLeaf.numElements()-1]; // push up the largest key of the left most node to the root
 				root.pointers()[0] = tinyPage;
 				root.pointers()[1] = bigPage;
-				pages.getIndexedPage(rootPage).contents = root.toBytes();
+				p.contents = Arrays.copyOf(root.toBytes(), p.contents.length);
 			}
 		}
 	}

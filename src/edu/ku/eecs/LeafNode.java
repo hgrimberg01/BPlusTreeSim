@@ -20,7 +20,7 @@ public class LeafNode extends TreeNode {
 		keys = new int[treeOrder];
 		Arrays.fill(keys, -1);
 		pointers = new int[treeOrder];
-		Arrays.fill(keys, -1);
+		Arrays.fill(pointers, -1);
 		siblingPtr = -1;
 	}
 
