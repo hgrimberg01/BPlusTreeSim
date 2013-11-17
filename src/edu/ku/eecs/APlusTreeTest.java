@@ -46,6 +46,24 @@ public class APlusTreeTest {
 		for (int i=0; i<addQueue.length; i++) {
 			assertEquals(treeUnderTest.search(addQueue[i]), addQueue[i]+1);
 		}
+		
+		// Test adding two more elements. This should cause another split, and fill the root.
+		addQueue = new int[] { 5, 8 };
+		for (int i=0; i<addQueue.length; i++) {
+			treeUnderTest.insert(addQueue[i], addQueue[i]+1);
+		}
+		for (int i=0; i<addQueue.length; i++) {
+			assertEquals(treeUnderTest.search(addQueue[i]), addQueue[i]+1);
+		}
+		
+		// Test adding two more elements. This should cause another split, and cause the root to split.
+		addQueue = new int[] { 7, 10 };
+		for (int i=0; i<addQueue.length; i++) {
+			treeUnderTest.insert(addQueue[i], addQueue[i]+1);
+		}
+		for (int i=0; i<addQueue.length; i++) {
+			assertEquals(treeUnderTest.search(addQueue[i]), addQueue[i]+1);
+		}
 	}
 
 	/**

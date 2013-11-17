@@ -41,12 +41,13 @@ public class APlusTree {
 			InternalNode node = (InternalNode)root;
 			try {
 				node.insert(key, value);
+				p.contents = Arrays.copyOf(node.toBytes(), p.contents.length);
 			}
 			catch (InternalNodeFullException e) {
 				InternalNode leftNode = new InternalNode(pages, treeOrder);
 				InternalNode rightNode = new InternalNode(pages, treeOrder);
 				int pushedUpKey = e.tinyNode.keys()[e.tinyNode.numElements()-1]; // biggest element of left side split node
-				int pushupInsertIndex = node.numElements();
+				int pushupInsertIndex = node.numElements()-1;
 				for (int i=0; i<node.keys().length; i++) {
 					if (node.keys()[i] >= pushedUpKey || node.keys()[i] == -1) {
 						pushupInsertIndex = i;
@@ -54,7 +55,7 @@ public class APlusTree {
 				}
 				int nodeTransitionIndex = (int) Math.ceil(treeOrder/2); // the index after which keys are put in rightNode
 				int iterator = 0;
-				for (int i=0; i<=treeOrder; i++) {
+				for (int i=0; i<treeOrder; i++) {
 					if (i == pushupInsertIndex) {
 						if (i <= nodeTransitionIndex) {
 							leftNode.keys()[i] = pushedUpKey;
@@ -74,7 +75,7 @@ public class APlusTree {
 					}
 				}
 				iterator = 0;
-				for (int i=0; i<=treeOrder+1; i++) { // reconnect pointers
+				for (int i=0; i<treeOrder+1; i++) { // reconnect pointers
 					if (i == pushupInsertIndex) {
 						if (i <= nodeTransitionIndex) {
 							leftNode.pointers()[i] = e.tinyPtr;

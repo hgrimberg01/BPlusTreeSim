@@ -46,37 +46,36 @@ public class InternalNode extends TreeNode {
 		int targetPtr = pointers[insertIndex];
 		try {
 			target.insert(key, value);
+			Page p = pages.getIndexedPage(targetPtr);
+			p.contents = Arrays.copyOf(target.toBytes(), p.contents.length);
 		}
 		catch (LeafNodeFullException e) {
 			// need to split node
 			LeafNode tinyLeaf = new LeafNode(pages, treeOrder);
 			LeafNode bigLeaf = new LeafNode(pages, treeOrder);
-			for (int i=0; i< insertIndex; i++) { // add all keys before insertion point
-				if (i <= Math.floor(treeOrder/2)) {
-					tinyLeaf.keys()[i] = target.keys()[i];
-					tinyLeaf.pointers()[i] = target.pointers()[i];
+			int nodeTransitionIndex = (int) Math.ceil(treeOrder/2);
+			int iterator = 0;
+			for (int i=0; i<=treeOrder; i++) {
+				if (i == ((LeafNode)target).insertionPoint(key)) {
+					if (i <= nodeTransitionIndex) {
+						tinyLeaf.keys()[i] = key;
+						tinyLeaf.pointers()[i] = value;
+					}
+					else {
+						bigLeaf.keys()[i-nodeTransitionIndex-1] = key;
+						bigLeaf.pointers()[i-nodeTransitionIndex-1] = value;
+					}
 				}
 				else {
-					bigLeaf.keys()[i] = target.keys()[i];
-					bigLeaf.pointers()[i] = target.pointers()[i];
-				}
-			}
-			if (insertIndex <= Math.floor(treeOrder/2)) {
-				tinyLeaf.keys()[insertIndex] = key;
-				tinyLeaf.pointers()[insertIndex] = value;
-			}
-			else {
-				bigLeaf.keys()[insertIndex] = key;
-				bigLeaf.pointers()[insertIndex] = value;
-			}
-			for (int i=insertIndex; i<target.keys().length; i++) { // add all keys after insertion point
-				if (i+1 <= Math.floor(treeOrder/2)) {
-					tinyLeaf.keys()[i+1] = target.keys()[i];
-					tinyLeaf.pointers()[i+1] = target.pointers()[i];
-				}
-				else {
-					bigLeaf.keys()[i+1] = target.keys()[i];
-					bigLeaf.pointers()[i+1] = target.pointers()[i];
+					if (i <= nodeTransitionIndex) {
+						tinyLeaf.keys()[i] = target.keys()[iterator];
+						tinyLeaf.pointers()[i] = target.pointers()[iterator];
+					}
+					else {
+						bigLeaf.keys()[i-nodeTransitionIndex-1] = target.keys()[iterator];
+						bigLeaf.pointers()[i-nodeTransitionIndex-1] = target.pointers()[iterator];
+					}
+					iterator++;
 				}
 			}
 			int tinyPage = pages.getNewPage(); Page tinyPg = pages.getIndexedPage(tinyPage);
@@ -93,7 +92,7 @@ public class InternalNode extends TreeNode {
 						);
 			}
 			else {
-				for (int i=numElements()-1; i >= insertIndex; i--) { // shift values down to make room for insertion
+				for (int i=numElements()-2; i >= insertIndex; i--) { // shift values down to make room for insertion
 					keys[i+1] = keys[i];
 					pointers[i+1] = pointers[i];
 				}
@@ -244,7 +243,7 @@ public class InternalNode extends TreeNode {
 				return i;
 			}
 		}
-		return numElements();
+		return numElements()-1;
 	}
 
 	@Override
