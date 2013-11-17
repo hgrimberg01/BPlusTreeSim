@@ -14,8 +14,9 @@ import java.util.Arrays;
 public class LeafNode extends TreeNode {
 	private int siblingPtr;
 	
-	public LeafNode()
+	public LeafNode(PageTable pages, int order)
 	{
+		super(pages, order);
 		keys = new int[treeOrder];
 		Arrays.fill(keys, -1);
 		pointers = new int[treeOrder];
@@ -32,13 +33,23 @@ public class LeafNode extends TreeNode {
 	}
 
 	@Override
-	public void insert(int key, int value) {
+	public void insert(int key, int value) throws Exception {
 		if (numElements > keys.length -1) {
 			// no more room for insertion
-			// throw some exception
+			throw new Exception("Leaf is full.");
 		}
 		else {
 			int insertIndex = numElements;
+			for (int i=0; i<numElements; i++) {
+				if (keys[i] >= key || keys[i] == -1) {
+					if (keys[i] == key) throw new Exception("Value already exists.");
+					insertIndex = i;
+				}
+			}
+			for (int i=numElements-1; i > insertIndex; i--) { // shift values down to make room for insertion
+				keys[i+1] = keys[i];
+				pointers[i+1] = pointers[i];
+			}
 			keys[insertIndex] = key;
 			pointers[insertIndex] = value;
 		}
@@ -74,19 +85,18 @@ public class LeafNode extends TreeNode {
 		return buff.array();
 	}
 
-	public static TreeNode unflatten(byte[] array) {
+	@Override
+	protected void unflatten(byte[] array) {
 		int keySize = 9;
 		int ptrSize = 6;
 		ByteBuffer buff = ByteBuffer.wrap(array);
 		buff.order(ByteOrder.nativeOrder());
-		LeafNode leaf = new LeafNode();
-		for (int i=0; i<leaf.keys.length; i++) {
-			leaf.keys[i] = buff.getInt();
+		for (int i=0; i<keys.length; i++) {
+			keys[i] = buff.getInt();
 			buff.position(buff.position()+(keySize-4));
-			leaf.pointers[i] = buff.getInt();
+			pointers[i] = buff.getInt();
 			buff.position(buff.position()+(ptrSize-4));
 		}
-		leaf.siblingPtr = buff.getInt();
-		return leaf;
+		siblingPtr = buff.getInt();
 	}
 }

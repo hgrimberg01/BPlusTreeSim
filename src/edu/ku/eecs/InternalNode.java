@@ -15,8 +15,9 @@ public class InternalNode extends TreeNode {
 	private int[] keys;
 	private int[] pointers;
 	
-	public InternalNode()
+	public InternalNode(PageTable pages, int order)
 	{
+		super(pages, order);
 		keys = new int[treeOrder-1];
 		Arrays.fill(keys, -1);
 		pointers = new int[treeOrder];
@@ -77,21 +78,20 @@ public class InternalNode extends TreeNode {
 		return buff.array();
 	}
 
-	public static TreeNode unflatten(byte[] array) {
+	@Override
+	protected void unflatten(byte[] array) {
 		int keySize = 9;
 		int ptrSize = 4;
 		ByteBuffer buff = ByteBuffer.wrap(array);
 		buff.order(ByteOrder.nativeOrder());
-		InternalNode newNode = new InternalNode();
-		newNode.pointers[0] = buff.getInt();
+		pointers[0] = buff.getInt();
 		buff.position(buff.position()+(ptrSize-4));
-		for (int i=0; i<newNode.keys.length; i++) {
-			newNode.keys[i] = buff.getInt();
+		for (int i=0; i<keys.length; i++) {
+			keys[i] = buff.getInt();
 			buff.position(buff.position()+(keySize-4));
-			newNode.pointers[i+1] = buff.getInt();
+			pointers[i+1] = buff.getInt();
 			buff.position(buff.position()+(ptrSize-4));
 		}
-		return newNode;
 	}
 
 }

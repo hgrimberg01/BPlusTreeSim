@@ -16,22 +16,25 @@ public abstract class TreeNode {
 	protected int[] keys;
 	protected int[] pointers;
 	protected int treeOrder;
-	protected PageTable pages; // TODO somehow this has to get information
+	protected PageTable pages;
+	protected boolean isRoot;
 	
-	public TreeNode() {
+	public TreeNode(PageTable pages, int order) {
 		numElements = 0;
-		treeOrder = 3;
+		treeOrder = order;
+		isRoot = false;
 	}
 	
 	public abstract int search(int key) throws Exception;
 	
-	public abstract void insert(int key, int value);
+	public abstract void insert(int key, int value) throws Exception;
 	
 	public abstract void delete(int key);
 	
 	public abstract boolean isLeaf();
 	
 	protected abstract byte[] flatten();
+	protected abstract void unflatten(byte[] bytes);
 	
 	public byte[] toBytes() {
 		byte typeByte = (byte) ((isLeaf()) ? 0 : 1);
@@ -39,17 +42,44 @@ public abstract class TreeNode {
 		return ByteBuffer.allocate(node.length+1).put(typeByte).put(node).array();
 	}
 	
-	public static TreeNode fromBytes(byte[] bytes) throws Exception {
+	public static TreeNode fromBytes(byte[] bytes, PageTable pages, int order) throws Exception {
 		if (bytes[0] == 0) { // leaf node
-			return LeafNode.unflatten(Arrays.copyOfRange(bytes, 1, bytes.length));
+			LeafNode leaf = new LeafNode(pages, order);
+			leaf.unflatten(Arrays.copyOfRange(bytes, 1, bytes.length));
+			return leaf;
 		}
 		else if (bytes[0] == 1) { // internal node
-			return InternalNode.unflatten(Arrays.copyOfRange(bytes, 1, bytes.length));
+			InternalNode node = new InternalNode(pages, order);
+			node.unflatten(Arrays.copyOfRange(bytes, 1, bytes.length));
+			return node;
 		}
 		throw new Exception();
+	}
+	
+	public TreeNode fromBytes(byte[] bytes) throws Exception {
+		return fromBytes(bytes, pages, treeOrder);
 	}
 	
 	public TreeNode getNode(int pageID) throws Exception {
 		return fromBytes(pages.getIndexedPage(pageID).contents);
 	}
+	
+	public void isRoot(boolean root) { isRoot = root; }
+	public boolean isRoot() { return isRoot; }
+	
+	public int numElements() { return numElements; }
+	public boolean isFull() {
+		if (isLeaf()) {
+			// leaf node is full if there are order - 1 elements
+			// unless it is the root node, which is full with order elements
+			if (isRoot()) { return numElements >= treeOrder; }
+			else { return numElements >= treeOrder - 1; }
+		}
+		else {
+			return numElements >= treeOrder;
+		}
+	}
+	
+	public int[] keys() { return keys; }
+	public int[] pointers() { return pointers; }
 }
