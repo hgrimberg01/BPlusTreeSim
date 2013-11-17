@@ -92,7 +92,11 @@ public class InternalNode extends TreeNode {
 						);
 			}
 			else {
-				for (int i=numElements()-2; i >= insertIndex; i--) { // shift values down to make room for insertion
+				int lastPointerIndex = numElements()-1;
+				if (insertIndex < lastPointerIndex) { // shift last pointer down
+					pointers[lastPointerIndex+1] = pointers[lastPointerIndex];
+				}
+				for (int i=lastPointerIndex-1; i >= insertIndex; i--) { // shift values down to make room for insertion
 					keys[i+1] = keys[i];
 					pointers[i+1] = pointers[i];
 				}
@@ -108,15 +112,16 @@ public class InternalNode extends TreeNode {
 			InternalNode leftNode = new InternalNode(pages, treeOrder);
 			InternalNode rightNode = new InternalNode(pages, treeOrder);
 			int pushedUpKey = e.tinyNode.keys()[e.tinyNode.numElements()-1]; // biggest element of left side split node
-			int pushupInsertIndex = target.numElements();
+			int pushupInsertIndex = target.numElements()-1;
 			for (int i=0; i<target.keys().length; i++) {
 				if (target.keys()[i] >= pushedUpKey || target.keys()[i] == -1) {
 					pushupInsertIndex = i;
+					break;
 				}
 			}
 			int nodeTransitionIndex = (int) Math.ceil(treeOrder/2); // the index after which keys are put in rightNode
 			int iterator = 0;
-			for (int i=0; i<=treeOrder; i++) {
+			for (int i=0; i<treeOrder; i++) {
 				if (i == pushupInsertIndex) {
 					if (i <= nodeTransitionIndex) {
 						leftNode.keys()[i] = pushedUpKey;
@@ -136,7 +141,7 @@ public class InternalNode extends TreeNode {
 				}
 			}
 			iterator = 0;
-			for (int i=0; i<=treeOrder+1; i++) { // reconnect pointers
+			for (int i=0; i<treeOrder+1; i++) { // reconnect pointers
 				if (i == pushupInsertIndex) {
 					if (i <= nodeTransitionIndex) {
 						leftNode.pointers()[i] = e.tinyPtr;
@@ -176,7 +181,11 @@ public class InternalNode extends TreeNode {
 				throw new InternalNodeFullException(leftPage, leftNode, rightPage, rightNode);
 			}
 			else {
-				for (int i=numElements()-1; i >= insertIndex; i--) { // shift values down to make room for insertion
+				int lastPointerIndex = numElements()-1;
+				if (insertIndex < lastPointerIndex) { // shift last pointer down
+					pointers[lastPointerIndex+1] = pointers[lastPointerIndex];
+				}
+				for (int i=lastPointerIndex-1; i >= insertIndex; i--) { // shift values down to make room for insertion
 					keys[i+1] = keys[i];
 					pointers[i+1] = pointers[i];
 				}

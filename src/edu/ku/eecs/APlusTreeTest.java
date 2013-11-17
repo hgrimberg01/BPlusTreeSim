@@ -74,7 +74,60 @@ public class APlusTreeTest {
 			assertEquals(treeUnderTest.search(addQueue[i]), addQueue[i]+1);
 		}
 		
+		// Test adding two more elements. This should cause another split, and fill the root again.
+		addQueue = new int[] { 13, 14 };
+		for (int i=0; i<addQueue.length; i++) {
+			treeUnderTest.insert(addQueue[i], addQueue[i]+1);
+		}
+		for (int i=0; i<addQueue.length; i++) {
+			assertEquals(treeUnderTest.search(addQueue[i]), addQueue[i]+1);
+		}
+		
+		// Test adding four more elements. This should cause the root to split
+		addQueue = new int[] { 18, 17, 16, 15 };
+		for (int i=0; i<addQueue.length; i++) {
+			treeUnderTest.insert(addQueue[i], addQueue[i]+1);
+		}
+		for (int i=0; i<addQueue.length; i++) {
+			assertEquals(treeUnderTest.search(addQueue[i]), addQueue[i]+1);
+		}
+		
 		System.out.println(treeUnderTest.levelOrderTraverse());
+	}
+	
+	/**
+	 * Test method for {@link edu.ku.eecs.APlusTree#insert(int, int)}.
+	 * @throws Exception 
+	 */
+	@Test
+	public void testReverseInsert() throws Exception {
+		// Test adding 18 elements, descending order
+		int numElements = 18;
+		for (int i=numElements-1; i>=0; i--) {
+			treeUnderTest.insert(i, i+1);
+		}
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		for (int i=numElements-1; i>=0; i--) {
+			assertEquals(treeUnderTest.search(i), i+1);
+		}
+		
+	}
+	
+	/**
+	 * Test method for {@link edu.ku.eecs.APlusTree#insert(int, int)}.
+	 * @throws Exception 
+	 */
+	@Test
+	public void testSequentialInsert() throws Exception {
+		// Test adding 18 elements, ascending order
+		int numElements = 18;
+		for (int i=0; i<numElements; i++) {
+			treeUnderTest.insert(i, i+1);
+		}
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		for (int i=0; i<numElements; i++) {
+			assertEquals(treeUnderTest.search(i), i+1);
+		}
 	}
 
 	/**

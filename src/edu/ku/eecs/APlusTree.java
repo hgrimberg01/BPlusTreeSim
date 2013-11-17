@@ -94,6 +94,7 @@ public class APlusTree {
 				for (int i=0; i<node.keys().length; i++) {
 					if (node.keys()[i] >= pushedUpKey || node.keys()[i] == -1) {
 						pushupInsertIndex = i;
+						break;
 					}
 				}
 				int nodeTransitionIndex = (int) Math.ceil(treeOrder/2); // the index after which keys are put in rightNode
