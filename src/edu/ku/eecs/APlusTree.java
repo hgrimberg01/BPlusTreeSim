@@ -45,15 +45,32 @@ public class APlusTree {
 				LeafNode node = new LeafNode(pages, treeOrder);
 				node.isRoot(true);
 				int iterator = 0;
-				for (int i=0; i<root.numElements(); i++) { // get the keys out of the children
-					TreeNode child = root.getNode(root.pointers()[i]);
-					for (int j=0; j<child.numElements(); j++) {
-						node.keys()[iterator] = child.keys()[j];
-						node.pointers()[iterator] = child.pointers()[j];
-						iterator++;
-					}
+				if (root.numElements() == 0) {
+					// We've got problems if the root has no pointers on it
+					throw new Exception();
 				}
-				p.contents = Arrays.copyOf(node.toBytes(), p.contents.length);
+				else {
+					TreeNode child = root.getNode(root.pointers()[0]);
+					if (child.isLeaf()) { // children are leaves. Grab pointers from children
+						for (int i=0; i<root.numElements(); i++) {
+							child = root.getNode(root.pointers()[i]);
+							for (int j=0; j<child.numElements(); j++) {
+								node.keys()[iterator] = child.keys()[j];
+								node.pointers()[iterator] = child.pointers()[j];
+								iterator++;
+							}
+						}
+						p.contents = Arrays.copyOf(node.toBytes(), p.contents.length);
+					}
+					else { // children are internal nodes. There should only be one internal node left. Make it root.
+						InternalNode newRoot = (InternalNode) child;
+						pages.deletePage(rootPage); // delete old root from pages
+						rootPage = root.pointers()[0]; // set new root reference
+						newRoot.isRoot(true);
+						p = pages.getIndexedPage(rootPage);
+						p.contents = Arrays.copyOf(newRoot.toBytes(), p.contents.length);
+					}
+				}				
 			}
 		}
 		else { // root is a leaf
