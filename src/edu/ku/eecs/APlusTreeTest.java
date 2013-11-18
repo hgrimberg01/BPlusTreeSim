@@ -161,7 +161,7 @@ public class APlusTreeTest {
 	 */
 	@Test
 	public void testSearch() throws Exception {
-		// Test adding 18 elements, random order
+		// Test adding 50 elements, random order
 		int numElements = 50;
 		ArrayList<Integer> list = new ArrayList<Integer>(numElements);
 		for (int i=0; i<numElements; i++) {
@@ -229,7 +229,7 @@ public class APlusTreeTest {
 	 */
 	@Test
 	public void testInternalDeleteBorrowLeft() throws Exception {
-		// Test adding and deleting
+		// Test internal node borrowing from left
 		int numElements = 12;
 		for (int i=0; i<numElements; i++) {
 			treeUnderTest.insert(i, i+1);
@@ -248,7 +248,7 @@ public class APlusTreeTest {
 	 */
 	@Test
 	public void testInternalDeleteBorrowRight() throws Exception {
-		// Test adding and deleting
+		// Test internal node borrowing from right
 		int numElements = 12;
 		for (int i=0; i<numElements; i++) {
 			treeUnderTest.insert(i, i+1);
