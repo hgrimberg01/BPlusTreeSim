@@ -184,5 +184,26 @@ public class APlusTreeTest {
 		}
 	}
 
+	/**
+	 * Test method for {@link edu.ku.eecs.APlusTree#delete(int)}.
+	 * @throws Exception 
+	 */
+	@Test
+	public void testAscendingDelete() throws Exception {
+		// Test adding and deleting 18 elements, descending order
+		int numElements = 4;
+		for (int i=0; i<numElements; i++) {
+			treeUnderTest.insert(i, i+1);
+		}
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		for (int i=0; i<numElements; i++) {
+			treeUnderTest.delete(i);
+			System.out.println(treeUnderTest.levelOrderTraverse());
+		}
+		for (int i=0; i<numElements; i++) {
+			assertEquals(-1, treeUnderTest.search(i));
+		}
+	}
+
 
 }

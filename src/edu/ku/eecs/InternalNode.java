@@ -301,11 +301,16 @@ public class InternalNode extends TreeNode {
 					p.contents = Arrays.copyOf(target.toBytes(), p.contents.length);
 					// delete key and pointer from parent, shift elements left to maintain continuity
 					int deadPointer = pointers[deletionIndex+1];
-					for (int i=deletionIndex+1; i < keys.length-1; i++) {
+					for (int i=deletionIndex; i < keys.length; i++) {
+						if (i+1 == keys.length) { // delete last key/pointer pair
+							keys[i] = -1;
+							pointers[i+1] = -1;
+							break;
+						}
 						keys[i] = keys[i+1];
-						pointers[i] = pointers[i+1];
+						pointers[i+1] = pointers[i+2];
 						keys[i+1] = -1;
-						pointers[i+1] = -1;
+						pointers[i+2] = -1;
 					}
 					pages.deletePage(deadPointer);
 					if (numElements() < Math.ceil(treeOrder/2.0)) {
@@ -387,7 +392,7 @@ public class InternalNode extends TreeNode {
 					// merge with left node
 					int beginIndex = leftNode.numElements();
 					leftNode.pointers()[beginIndex] = target.pointers()[0];
-					for (int i=1; i<target.numElements(); i++) {
+					for (int i=1; i<target.numElements(); i++) { // transfer keys and pointers to the left node
 						leftNode.keys()[beginIndex+i-1] = target.keys()[i-1];
 						leftNode.pointers()[beginIndex+i] = target.pointers()[i];
 					}
@@ -414,6 +419,33 @@ public class InternalNode extends TreeNode {
 				}
 				else if (rightNode != null) {
 					// merge with right node
+					int beginIndex = target.numElements();
+					target.pointers()[beginIndex] = rightNode.pointers()[0];
+					for (int i=1; i<rightNode.numElements(); i++) { // transfer keys and pointers to the left node
+						target.keys()[beginIndex+i-1] = rightNode.keys()[i-1];
+						target.pointers()[beginIndex+i] = rightNode.pointers()[i];
+					}
+					// push down new key
+					target.keys()[beginIndex-1] = keys[deletionIndex];
+					// save merged node
+					Page p = pages.getIndexedPage(targetPtr);
+					p.contents = Arrays.copyOf(target.toBytes(), p.contents.length);
+					int deadPointer = pointers[deletionIndex+1];
+					// delete key and pointer from parent, shift elements left to maintain continuity
+					pointers[deletionIndex+1] = (deletionIndex+2 < keys.length) ? pointers[deletionIndex+2] : -1;
+					for (int i=deletionIndex+1; i < keys.length-1; i++) {
+						keys[i] = keys[i+1];
+						pointers[i+1] = pointers[i+2];
+						keys[i+1] = -1;
+						pointers[i+2] = -1;
+					}
+					pages.deletePage(deadPointer);
+					if (numElements() < Math.ceil(treeOrder/2.0)) {
+						// this internal node is now underflowed. Throw exception.
+						if (!isRoot() || (numElements() < 2 && isRoot())) { // if this is the root, only underflow when fewer than 2 pointers exist
+							throw new InternalUnderflowException();
+						}
+					}
 				}
 				else {
 					throw new Exception("The root might do this, but I'll find out in debugging.");
