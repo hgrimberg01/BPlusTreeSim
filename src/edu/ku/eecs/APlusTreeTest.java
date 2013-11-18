@@ -17,6 +17,7 @@ import org.junit.Test;
  */
 public class APlusTreeTest {
 	APlusTree treeUnderTest;
+	int sequentialElements;
 	
 	/**
 	 * @throws java.lang.Exception
@@ -24,6 +25,7 @@ public class APlusTreeTest {
 	@Before
 	public void setUp() throws Exception {
 		treeUnderTest = new APlusTree();
+		sequentialElements = 24; // number of sequential elements to test
 	}
 	
 	/**
@@ -104,8 +106,8 @@ public class APlusTreeTest {
 	 */
 	@Test
 	public void testReverseInsert() throws Exception {
-		// Test adding 18 elements, descending order
-		int numElements = 18;
+		// Test adding elements, descending order
+		int numElements = sequentialElements;
 		for (int i=numElements-1; i>=0; i--) {
 			treeUnderTest.insert(i, i+1);
 		}
@@ -122,13 +124,12 @@ public class APlusTreeTest {
 	 */
 	@Test
 	public void testSequentialInsert() throws Exception {
-		// Test adding 18 elements, ascending order
-		int numElements = 18;
-		for (int i=0; i<numElements; i++) {
+		// Test adding elements, ascending order
+		for (int i=0; i<sequentialElements; i++) {
 			treeUnderTest.insert(i, i+1);
 		}
 		System.out.println(treeUnderTest.levelOrderTraverse());
-		for (int i=0; i<numElements; i++) {
+		for (int i=0; i<sequentialElements; i++) {
 			assertEquals(treeUnderTest.search(i), i+1);
 		}
 	}
@@ -139,8 +140,8 @@ public class APlusTreeTest {
 	 */
 	@Test
 	public void testRandomInsert() throws Exception {
-		// Test adding 18 elements, random order
-		int numElements = 18;
+		// Test adding elements, random order
+		int numElements = sequentialElements;
 		ArrayList<Integer> list = new ArrayList<Integer>(numElements);
 		for (int i=0; i<numElements; i++) {
 			list.add(i);
@@ -188,8 +189,8 @@ public class APlusTreeTest {
 	 */
 	@Test
 	public void testDescendingDelete() throws Exception {
-		// Test adding and deleting 18 elements, descending order
-		int numElements = 18;
+		// Test adding and deleting elements, descending order
+		int numElements = sequentialElements;
 		for (int i=numElements-1; i>=0; i--) {
 			treeUnderTest.insert(i, i+1);
 		}
@@ -209,8 +210,8 @@ public class APlusTreeTest {
 	 */
 	@Test
 	public void testAscendingDelete() throws Exception {
-		// Test adding and deleting 18 elements, ascending order
-		int numElements = 18;
+		// Test adding and deleting elements, ascending order
+		int numElements = sequentialElements;
 		for (int i=0; i<numElements; i++) {
 			treeUnderTest.insert(i, i+1);
 		}
