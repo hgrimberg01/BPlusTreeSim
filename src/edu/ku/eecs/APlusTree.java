@@ -32,8 +32,16 @@ public class APlusTree {
 		return root.search(key);
 	}
 	
-	public void delete(int key) {
-		
+	public void delete(int key) throws Exception {
+		Page p = pages.getIndexedPage(rootPage);
+		TreeNode root = TreeNode.fromBytes(p.contents, pages, treeOrder);
+		if (!root.isLeaf()) { // root is not a leaf
+			root.delete(key);
+		}
+		else { // root is a leaf
+			// This makes things rather easy. Just delete it.
+			root.delete(key);
+		}
 	}
 	
 	public String levelOrderTraverse() throws Exception {

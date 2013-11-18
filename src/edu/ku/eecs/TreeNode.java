@@ -28,7 +28,7 @@ public abstract class TreeNode {
 	
 	public abstract void insert(int key, int value) throws Exception;
 	
-	public abstract void delete(int key);
+	public abstract void delete(int key) throws KeyNotFoundException, LeafUnderflowException, Exception;
 	
 	public abstract boolean isLeaf();
 	

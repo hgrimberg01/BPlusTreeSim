@@ -67,11 +67,23 @@ public class LeafNode extends TreeNode {
 	}
 
 	@Override
-	public void delete(int key) {
+	public void delete(int key) throws KeyNotFoundException, LeafUnderflowException {
 		if (numElements() == 0) {
-			// throw some exception
+			throw new KeyNotFoundException();
 		}
-		// TODO check if there will be an unusual case from this deletion
+		boolean keyFound = false;
+		for (int i=0; i<keys.length; i++) {
+			if (keys[i] == key) {
+				keys[i] = -1;
+				pointers[i] = -1;
+				break;
+			}
+		}
+		if (!keyFound) throw new KeyNotFoundException();
+		if (!isRoot() && numElements() < Math.ceil(treeOrder/2)) {
+			// TODO deletion resulted in underflow
+			throw new LeafUnderflowException();
+		}
 	}
 
 	@Override
