@@ -36,11 +36,30 @@ public class APlusTree {
 		Page p = pages.getIndexedPage(rootPage);
 		TreeNode root = TreeNode.fromBytes(p.contents, pages, treeOrder);
 		if (!root.isLeaf()) { // root is not a leaf
-			root.delete(key);
+			try {
+				root.delete(key);
+				p.contents = Arrays.copyOf(root.toBytes(), p.contents.length);
+			}
+			catch (InternalUnderflowException e) {
+				// since this is the root, if it underflows, we need to change it to a leaf.
+				LeafNode node = new LeafNode(pages, treeOrder);
+				node.isRoot(true);
+				int iterator = 0;
+				for (int i=0; i<root.numElements(); i++) { // get the keys out of the children
+					TreeNode child = root.getNode(root.pointers()[i]);
+					for (int j=0; j<child.numElements(); j++) {
+						node.keys()[iterator] = child.keys()[j];
+						node.pointers()[iterator] = child.pointers()[j];
+						iterator++;
+					}
+				}
+				p.contents = Arrays.copyOf(node.toBytes(), p.contents.length);
+			}
 		}
 		else { // root is a leaf
 			// This makes things rather easy. Just delete it.
 			root.delete(key);
+			p.contents = Arrays.copyOf(root.toBytes(), p.contents.length);
 		}
 	}
 	
@@ -88,6 +107,7 @@ public class APlusTree {
 	public void insert(int key, int value) throws Exception { // catch KeyExistsException to detect if key already exists
 		Page p = pages.getIndexedPage(rootPage);
 		TreeNode root = TreeNode.fromBytes(p.contents, pages, treeOrder);
+		root.isRoot(true);
 		if (!root.isLeaf()) {
 			InternalNode node = (InternalNode)root;
 			try {

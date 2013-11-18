@@ -76,11 +76,12 @@ public class LeafNode extends TreeNode {
 			if (keys[i] == key) {
 				keys[i] = -1;
 				pointers[i] = -1;
+				keyFound = true;
 				break;
 			}
 		}
 		if (!keyFound) throw new KeyNotFoundException();
-		if (!isRoot() && numElements() < Math.ceil(treeOrder/2)) {
+		if (!isRoot() && numElements() < Math.ceil(treeOrder/2.0)) {
 			// TODO deletion resulted in underflow
 			throw new LeafUnderflowException();
 		}

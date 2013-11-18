@@ -204,7 +204,7 @@ public class InternalNode extends TreeNode {
 	 */
 	@Override
 	public void delete(int key) throws Exception {
-		int deletionIndex = insertionPoint(key);
+		int deletionIndex = deletionPointer(key);
 		TreeNode target = getNode(pointers[deletionIndex]);
 		int targetPtr = pointers[deletionIndex];
 		try {
@@ -226,7 +226,7 @@ public class InternalNode extends TreeNode {
 			}
 			// try borrowing from siblings
 			// try left side sibling
-			if (leftNode != null && leftNode.numElements() > Math.ceil(treeOrder/2)) {
+			if (leftNode != null && leftNode.numElements() > Math.ceil(treeOrder/2.0)) {
 				// left node has enough to share
 				// move entry from left node to target
 				int leftNodeSpareIndex = leftNode.numElements()-1;
@@ -242,7 +242,7 @@ public class InternalNode extends TreeNode {
 				leftP.contents = Arrays.copyOf(leftNode.toBytes(), leftP.contents.length);
 				underflowFixed = true;
 			}
-			if (rightNode != null && !underflowFixed && rightNode.numElements() > Math.ceil(treeOrder/2)) {
+			if (rightNode != null && !underflowFixed && rightNode.numElements() > Math.ceil(treeOrder/2.0)) {
 				// right node has enough to share
 				// move entry from left node to target
 				target.insert(rightNode.keys()[0], rightNode.pointers()[0]);
@@ -270,14 +270,14 @@ public class InternalNode extends TreeNode {
 					Page p = pages.getIndexedPage(pointers[leftIndex]);
 					p.contents = Arrays.copyOf(leftNode.toBytes(), p.contents.length);
 					// delete key and pointer from parent, shift elements left to maintain continuity
-					for (int i=deletionIndex; i < keys.length-1; i++) {
-						keys[i] = keys[i+1];
+					for (int i=deletionIndex; i < keys.length; i++) {
+						keys[i-1] = keys[i];
 						pointers[i] = pointers[i+1];
-						keys[i+1] = -1;
+						keys[i] = -1;
 						pointers[i+1] = -1;
 					}
 					pages.deletePage(targetPtr);
-					if (numElements() < Math.ceil(treeOrder/2)) {
+					if (numElements() < Math.ceil(treeOrder/2.0)) {
 						// this internal node is now underflowed. Throw exception.
 						if (!isRoot() || (numElements() < 2 && isRoot())) { // if this is the root, only underflow when fewer than 2 pointers exist
 							throw new InternalUnderflowException();
@@ -303,7 +303,7 @@ public class InternalNode extends TreeNode {
 						pointers[i+1] = -1;
 					}
 					pages.deletePage(deadPointer);
-					if (numElements() < Math.ceil(treeOrder/2)) {
+					if (numElements() < Math.ceil(treeOrder/2.0)) {
 						// this internal node is now underflowed. Throw exception.
 						if (!isRoot() || (numElements() < 2 && isRoot())) { // if this is the root, only underflow when fewer than 2 pointers exist
 							throw new InternalUnderflowException();
@@ -380,7 +380,30 @@ public class InternalNode extends TreeNode {
 				// TODO got to merge
 				if (leftNode != null) {
 					// merge with left node
-					
+					int beginIndex = leftNode.numElements();
+					for (int i=0; i<target.numElements(); i++) {
+						leftNode.keys()[beginIndex+i] = target.keys()[i];
+						leftNode.pointers()[beginIndex+i] = target.pointers()[i];
+					}
+					// push down new key
+					leftNode.keys()[leftNode.numElements()-1] = keys[deletionIndex-1];
+					// save merged node
+					Page p = pages.getIndexedPage(pointers[leftIndex]);
+					p.contents = Arrays.copyOf(leftNode.toBytes(), p.contents.length);
+					// delete key and pointer from parent, shift elements left to maintain continuity
+					for (int i=deletionIndex-1; i < keys.length-1; i++) {
+						keys[i] = keys[i+1];
+						pointers[i] = pointers[i+1];
+						keys[i+1] = -1;
+						pointers[i+1] = -1;
+					}
+					pages.deletePage(targetPtr);
+					if (numElements() < Math.ceil(treeOrder/2)) {
+						// this internal node is now underflowed. Throw exception.
+						if (!isRoot() || (numElements() < 2 && isRoot())) { // if this is the root, only underflow when fewer than 2 pointers exist
+							throw new InternalUnderflowException();
+						}
+					}
 				}
 				else if (rightNode != null) {
 					// merge with right node
@@ -434,6 +457,15 @@ public class InternalNode extends TreeNode {
 		for (int i=0; i<keys.length; i++ ) {
 			if (keys[i] >= key || keys[i] == -1) {
 				if (keys[i] == key) throw new KeyExistsException();
+				return i;
+			}
+		}
+		return numElements()-1;
+	}
+	
+	public int deletionPointer(int key) {
+		for (int i=0; i<keys.length; i++ ) {
+			if (keys[i] >= key || keys[i] == -1) {
 				return i;
 			}
 		}

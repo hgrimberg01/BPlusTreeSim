@@ -36,20 +36,24 @@ public abstract class TreeNode {
 	protected abstract void unflatten(byte[] bytes);
 	
 	public byte[] toBytes() {
-		byte typeByte = (byte) ((isLeaf()) ? 0 : 1);
+		byte typeByte = (byte) (
+				((isLeaf()) ? 0 : 1) +
+				((isRoot()) ? 5 : 0));
 		byte[] node = flatten();
 		return ByteBuffer.allocate(node.length+1).put(typeByte).put(node).array();
 	}
 	
 	public static TreeNode fromBytes(byte[] bytes, PageTable pages, int order) throws Exception {
-		if (bytes[0] == 0) { // leaf node
+		if (bytes[0] == 0 || bytes[0] == 5) { // leaf node
 			LeafNode leaf = new LeafNode(pages, order);
 			leaf.unflatten(Arrays.copyOfRange(bytes, 1, bytes.length));
+			if (bytes[0] == 5) { leaf.isRoot(true); }
 			return leaf;
 		}
-		else if (bytes[0] == 1) { // internal node
+		else if (bytes[0] == 1 || bytes[0] == 6) { // internal node
 			InternalNode node = new InternalNode(pages, order);
 			node.unflatten(Arrays.copyOfRange(bytes, 1, bytes.length));
+			if (bytes[0] == 6) { node.isRoot(true); }
 			return node;
 		}
 		throw new Exception();

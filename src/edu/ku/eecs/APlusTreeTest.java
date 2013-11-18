@@ -165,10 +165,22 @@ public class APlusTreeTest {
 
 	/**
 	 * Test method for {@link edu.ku.eecs.APlusTree#delete(int)}.
+	 * @throws Exception 
 	 */
 	@Test
-	public void testDelete() {
-		fail("Not yet implemented");
+	public void testDelete() throws Exception {
+		// Test adding and deleting 18 elements, descending order
+		int numElements = 4;
+		for (int i=numElements-1; i>=0; i--) {
+			treeUnderTest.insert(i, i+1);
+		}
+		for (int i=numElements-1; i>=0; i--) {
+			treeUnderTest.delete(i);
+		}
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		for (int i=numElements-1; i>=0; i--) {
+			assertEquals(-1, treeUnderTest.search(i));
+		}
 	}
 
 
