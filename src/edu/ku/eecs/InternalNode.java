@@ -358,7 +358,7 @@ public class InternalNode extends TreeNode {
 				leftP.contents = Arrays.copyOf(leftNode.toBytes(), leftP.contents.length);
 				underflowFixed = true;
 			}
-			if (rightNode != null && !underflowFixed && rightNode.numElements() > Math.ceil(treeOrder/2.0)) {
+			else if (rightNode != null && !underflowFixed && rightNode.numElements() > Math.ceil(treeOrder/2.0)) {
 				// right node has enough to share
 				// move entry from left node to target
 				InternalNode node = (InternalNode)target;
@@ -385,8 +385,6 @@ public class InternalNode extends TreeNode {
 				// TODO got to merge
 				if (leftNode != null) {
 					// merge with left node
-					System.out.println(Arrays.toString(keys));
-					System.out.println(Arrays.toString(pointers));
 					int beginIndex = leftNode.numElements();
 					leftNode.pointers()[beginIndex] = target.pointers()[0];
 					for (int i=1; i<target.numElements(); i++) {

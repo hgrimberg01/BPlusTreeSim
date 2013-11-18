@@ -168,14 +168,14 @@ public class APlusTreeTest {
 	 * @throws Exception 
 	 */
 	@Test
-	public void testDelete() throws Exception {
+	public void testDescendingDelete() throws Exception {
 		// Test adding and deleting 18 elements, descending order
-		int numElements = 10;
+		int numElements = 18;
 		for (int i=numElements-1; i>=0; i--) {
 			treeUnderTest.insert(i, i+1);
 		}
 		System.out.println(treeUnderTest.levelOrderTraverse());
-		for (int i=numElements-1; i>=9; i--) {
+		for (int i=numElements-1; i>=0; i--) {
 			treeUnderTest.delete(i);
 			System.out.println(treeUnderTest.levelOrderTraverse());
 		}
