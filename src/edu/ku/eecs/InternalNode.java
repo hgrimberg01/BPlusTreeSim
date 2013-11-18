@@ -402,12 +402,17 @@ public class InternalNode extends TreeNode {
 					Page p = pages.getIndexedPage(pointers[leftIndex]);
 					p.contents = Arrays.copyOf(leftNode.toBytes(), p.contents.length);
 					// delete key and pointer from parent, shift elements left to maintain continuity
-					pointers[deletionIndex] = (deletionIndex+1 < keys.length) ? pointers[deletionIndex+1] : -1;
-					for (int i=deletionIndex; i < keys.length-1; i++) {
-						keys[i] = keys[i+1];
-						pointers[i+1] = pointers[i+2];
-						keys[i+1] = -1;
-						pointers[i+2] = -1;
+					for (int i=deletionIndex-1; i < keys.length; i++) {
+						if (i+1==keys.length) {
+							keys[i] = -1;
+							pointers[i+1] = -1;
+						}
+						else {
+							keys[i] = keys[i+1];
+							pointers[i+1] = pointers[i+2];
+							keys[i+1] = -1;
+							pointers[i+2] = -1;
+						}
 					}
 					pages.deletePage(targetPtr);
 					if (numElements() < Math.ceil(treeOrder/2.0)) {

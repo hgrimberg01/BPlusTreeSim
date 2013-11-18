@@ -80,7 +80,7 @@ public class LeafNode extends TreeNode {
 				break;
 			}
 		}
-		for (int i=deleteIndex; i<keys.length; i++) { // shift elements left to maintain continuity
+		for (int i=deleteIndex; i<keys.length && deleteIndex != -1; i++) { // shift elements left to maintain continuity
 			if (i+1 == keys.length) {
 				keys[i] = -1;
 				pointers[i] = -1;

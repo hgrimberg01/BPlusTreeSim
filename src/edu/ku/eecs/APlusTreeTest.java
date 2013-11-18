@@ -157,10 +157,29 @@ public class APlusTreeTest {
 
 	/**
 	 * Test method for {@link edu.ku.eecs.APlusTree#search(int)}.
+	 * @throws Exception 
 	 */
 	@Test
-	public void testSearch() {
-		fail("Not yet implemented");
+	public void testSearch() throws Exception {
+		// Test adding 18 elements, random order
+		int numElements = 50;
+		ArrayList<Integer> list = new ArrayList<Integer>(numElements);
+		for (int i=0; i<numElements; i++) {
+			list.add(i);
+		}
+		Collections.shuffle(list);
+		for (int i=0; i<numElements; i++) {
+			treeUnderTest.insert(list.get(i), list.get(i)+1);
+		}
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		for (int i=0; i<numElements; i++) {
+			assertEquals(treeUnderTest.search(list.get(i)), list.get(i)+1);
+		}
+		for (int i=0; i<numElements; i++) {
+			int deletedKey = list.get(i);
+			treeUnderTest.delete(deletedKey);
+			assertEquals(-1, treeUnderTest.search(deletedKey));
+		}
 	}
 
 	/**
@@ -190,19 +209,56 @@ public class APlusTreeTest {
 	 */
 	@Test
 	public void testAscendingDelete() throws Exception {
-		// Test adding and deleting 18 elements, descending order
-		int numElements = 16;
+		// Test adding and deleting 18 elements, ascending order
+		int numElements = 18;
 		for (int i=0; i<numElements; i++) {
 			treeUnderTest.insert(i, i+1);
 		}
 		System.out.println(treeUnderTest.levelOrderTraverse());
 		for (int i=0; i<numElements; i++) {
 			treeUnderTest.delete(i);
-			System.out.println(treeUnderTest.levelOrderTraverse());
 		}
 		for (int i=0; i<numElements; i++) {
 			assertEquals(-1, treeUnderTest.search(i));
 		}
+	}
+
+	/**
+	 * Test method for {@link edu.ku.eecs.APlusTree#delete(int)}.
+	 * @throws Exception 
+	 */
+	@Test
+	public void testInternalDeleteBorrowLeft() throws Exception {
+		// Test adding and deleting
+		int numElements = 12;
+		for (int i=0; i<numElements; i++) {
+			treeUnderTest.insert(i, i+1);
+		}
+		treeUnderTest.delete(0);
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		for (int i=numElements-1; i>0; i--) {
+			treeUnderTest.delete(i);
+			assertEquals(-1, treeUnderTest.search(i));
+		}
+	}
+
+	/**
+	 * Test method for {@link edu.ku.eecs.APlusTree#delete(int)}.
+	 * @throws Exception 
+	 */
+	@Test
+	public void testInternalDeleteBorrowRight() throws Exception {
+		// Test adding and deleting
+		int numElements = 12;
+		for (int i=0; i<numElements; i++) {
+			treeUnderTest.insert(i, i+1);
+		}
+		treeUnderTest.delete(11);
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		treeUnderTest.delete(0);
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		assertEquals(-1, treeUnderTest.search(0));
+		assertEquals(-1, treeUnderTest.search(11));
 	}
 
 
