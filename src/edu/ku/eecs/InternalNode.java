@@ -244,7 +244,7 @@ public class InternalNode extends TreeNode {
 			}
 			if (rightNode != null && !underflowFixed && rightNode.numElements() > Math.ceil(treeOrder/2.0)) {
 				// right node has enough to share
-				// move entry from left node to target
+				// move entry from right node to target
 				target.insert(rightNode.keys()[0], rightNode.pointers()[0]);
 				rightNode.delete(rightNode.keys()[0]);
 				// push up new key
@@ -432,12 +432,11 @@ public class InternalNode extends TreeNode {
 					p.contents = Arrays.copyOf(target.toBytes(), p.contents.length);
 					int deadPointer = pointers[deletionIndex+1];
 					// delete key and pointer from parent, shift elements left to maintain continuity
-					pointers[deletionIndex+1] = (deletionIndex+2 < keys.length) ? pointers[deletionIndex+2] : -1;
-					for (int i=deletionIndex+1; i < keys.length-1; i++) {
-						keys[i] = keys[i+1];
-						pointers[i+1] = pointers[i+2];
-						keys[i+1] = -1;
-						pointers[i+2] = -1;
+					for (int i=deletionIndex+1; i < keys.length; i++) {
+						keys[i-1] = keys[i];
+						pointers[i] = pointers[i+1];
+						keys[i] = -1;
+						pointers[i+1] = -1;
 					}
 					pages.deletePage(deadPointer);
 					if (numElements() < Math.ceil(treeOrder/2.0)) {

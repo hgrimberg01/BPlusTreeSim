@@ -191,7 +191,7 @@ public class APlusTreeTest {
 	@Test
 	public void testAscendingDelete() throws Exception {
 		// Test adding and deleting 18 elements, descending order
-		int numElements = 4;
+		int numElements = 16;
 		for (int i=0; i<numElements; i++) {
 			treeUnderTest.insert(i, i+1);
 		}
