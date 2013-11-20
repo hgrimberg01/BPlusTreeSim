@@ -92,7 +92,6 @@ public class LeafNode extends TreeNode {
 		}
 		if (deleteIndex == -1) throw new KeyNotFoundException();
 		if (!isRoot() && numElements() < Math.ceil(treeOrder/2.0)) {
-			// TODO deletion resulted in underflow
 			throw new LeafUnderflowException();
 		}
 	}

@@ -261,4 +261,35 @@ public class APlusTree {
 			}
 		}
 	}
+	
+	/**
+	 * Return a linked list of all the values
+	 * @return
+	 * @throws Exception 
+	 */
+	public LinkedList<int[]> values() throws Exception {
+		Page p = pages.getIndexedPage(rootPage);
+		TreeNode root = TreeNode.fromBytes(p.contents, pages, treeOrder);
+		// get down to the leaf level
+		TreeNode activeNode = root;
+		LinkedList<int[]> list = new LinkedList<int[]>();
+		while (!activeNode.isLeaf()) {
+			activeNode = activeNode.getNode(activeNode.pointers()[0]);
+		}
+		LeafNode leaf = (LeafNode)activeNode;
+		while (leaf != null) {
+			for (int i=0; i<leaf.numElements(); i++) { // add all the key value pairs for this node
+				int[] keyValue = new int[] { leaf.keys()[i], leaf.pointers()[i] };
+				list.add(keyValue);
+			}
+			System.out.println(leaf.siblingPtr());
+			if (leaf.siblingPtr() != -1) {
+				leaf = (LeafNode) leaf.getNode(leaf.siblingPtr());
+			}
+			else {
+				leaf = null;
+			}
+		}
+		return list;
+	}
 }

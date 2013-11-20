@@ -107,7 +107,6 @@ public class InternalNode extends TreeNode {
 			}
 		}
 		catch (InternalNodeFullException e) {
-			// TODO handle internal node full
 			// split the internal node
 			InternalNode leftNode = new InternalNode(pages, treeOrder);
 			InternalNode rightNode = new InternalNode(pages, treeOrder);
