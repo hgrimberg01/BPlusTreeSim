@@ -247,7 +247,9 @@ public class APlusTree {
 				}
 				int tinyPage = pages.getNewPage(); Page tinyPg = pages.getIndexedPage(tinyPage);
 				int bigPage = pages.getNewPage(); Page bigPg = pages.getIndexedPage(bigPage);
-				tinyLeaf.leftSiblingPtr(bigPage);
+				tinyLeaf.rightSiblingPtr(bigPage);
+				tinyLeaf.rightSiblingPtr(bigPage);
+				bigLeaf.leftSiblingPtr(tinyPage);
 				tinyPg.contents = Arrays.copyOf(tinyLeaf.toBytes(), tinyPg.contents.length);
 				bigPg.contents = Arrays.copyOf(bigLeaf.toBytes(), bigPg.contents.length);
 				
@@ -282,7 +284,6 @@ public class APlusTree {
 				int[] keyValue = new int[] { leaf.keys()[i], leaf.pointers()[i] };
 				list.add(keyValue);
 			}
-			System.out.println(leaf.rightSiblingPtr());
 			if (leaf.rightSiblingPtr() != -1) {
 				leaf = (LeafNode) leaf.getNode(leaf.rightSiblingPtr());
 			}

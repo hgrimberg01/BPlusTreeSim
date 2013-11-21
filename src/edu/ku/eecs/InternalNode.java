@@ -80,12 +80,31 @@ public class InternalNode extends TreeNode {
 			}
 			int tinyPage = pages.getNewPage(); Page tinyPg = pages.getIndexedPage(tinyPage);
 			int bigPage = pages.getNewPage(); Page bigPg = pages.getIndexedPage(bigPage);
+			int leftPage = ((LeafNode)target).leftSiblingPtr();
+			int rightPage = ((LeafNode)target).rightSiblingPtr();
+			tinyLeaf.leftSiblingPtr(leftPage);
 			tinyLeaf.rightSiblingPtr(bigPage);
 			bigLeaf.leftSiblingPtr(tinyPage);
+			bigLeaf.rightSiblingPtr(rightPage);
 			tinyPg.contents = Arrays.copyOf(tinyLeaf.toBytes(), tinyPg.contents.length);
 			bigPg.contents = Arrays.copyOf(bigLeaf.toBytes(), bigPg.contents.length);
+			// update the pointers of the leaf nodes to the left and right of these two new ones.
+			if (leftPage != -1) {
+				// update pointer from node to the left
+				Page leftPg = pages.getIndexedPage(leftPage);
+				LeafNode left = (LeafNode) LeafNode.fromBytes(leftPg.contents, pages, treeOrder);
+				left.rightSiblingPtr(tinyPage);
+				leftPg.contents = Arrays.copyOf(left.toBytes(), leftPg.contents.length);
+			}
+			if (rightPage != -1) {
+				// update pointer from node to the right
+				Page rightPg = pages.getIndexedPage(rightPage);
+				LeafNode right = (LeafNode) LeafNode.fromBytes(rightPg.contents, pages, treeOrder);
+				right.leftSiblingPtr(bigPage);
+				rightPg.contents = Arrays.copyOf(right.toBytes(), rightPg.contents.length);
+			}
 			
-			// push up the new pointers
+			// push up the new pointer
 			if (isFull()) {
 				// no more room in this internal node. Need to propagate split up.
 				throw new InternalNodeFullException(

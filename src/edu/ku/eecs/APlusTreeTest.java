@@ -279,7 +279,22 @@ public class APlusTreeTest {
 	
 	@Test
 	public void testLinkedListGeneration() throws Exception {
-		int numElements = 6;
+		int numElements = sequentialElements;
+		LinkedList<int[]> referenceList = new LinkedList<int[]>();
+		for (int i = 0; i < numElements; i++) {
+			treeUnderTest.insert(i, i + 1);
+			referenceList.add(new int[] {i, i+1});
+		}
+		System.out.println(treeUnderTest.levelOrderTraverse());
+		LinkedList<int[]> generatedList = treeUnderTest.values();
+		for (int i=0; i< numElements;i++) {
+			assertArrayEquals(referenceList.get(i), generatedList.get(i));
+		}
+	}
+	
+	@Test
+	public void testLinkedListGenerationWithDeletions() throws Exception {
+		int numElements = sequentialElements;
 		LinkedList<int[]> referenceList = new LinkedList<int[]>();
 		for (int i = 0; i < numElements; i++) {
 			treeUnderTest.insert(i, i + 1);
