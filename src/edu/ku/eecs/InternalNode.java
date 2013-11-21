@@ -285,6 +285,7 @@ public class InternalNode extends TreeNode {
 						leftNode.keys()[beginIndex+i] = target.keys()[i];
 						leftNode.pointers()[beginIndex+i] = target.pointers()[i];
 					}
+					leftNode.rightSiblingPtr(((LeafNode)target).rightSiblingPtr());
 					// save merged node
 					Page p = pages.getIndexedPage(pointers[leftIndex]);
 					p.contents = Arrays.copyOf(leftNode.toBytes(), p.contents.length);
@@ -300,6 +301,13 @@ public class InternalNode extends TreeNode {
 						keys[i+1] = -1;
 						pointers[i+2] = -1;
 					}
+					// update sibling pointer on node to the right
+					if (leftNode.rightSiblingPtr() != -1) {
+					Page sibPg = pages.getIndexedPage(leftNode.rightSiblingPtr());
+					TreeNode rightSib = leftNode.getNode(leftNode.rightSiblingPtr());
+					sibPg.contents = Arrays.copyOf(rightSib.toBytes(), sibPg.contents.length);
+					}
+					// delete page for the now-vacant node
 					pages.deletePage(targetPtr);
 					if (numElements() < Math.ceil(treeOrder/2.0)) {
 						// this internal node is now underflowed. Throw exception.
@@ -315,6 +323,7 @@ public class InternalNode extends TreeNode {
 						target.keys()[beginIndex+i] = rightNode.keys()[i];
 						target.pointers()[beginIndex+i] = rightNode.pointers()[i];
 					}
+					((LeafNode)target).rightSiblingPtr(rightNode.rightSiblingPtr());
 					// save merged node
 					Page p = pages.getIndexedPage(targetPtr);
 					p.contents = Arrays.copyOf(target.toBytes(), p.contents.length);
@@ -331,6 +340,13 @@ public class InternalNode extends TreeNode {
 						keys[i+1] = -1;
 						pointers[i+2] = -1;
 					}
+					// update sibling pointer on node to the right
+					if (rightNode.rightSiblingPtr() != -1) {
+					Page sibPg = pages.getIndexedPage(rightNode.rightSiblingPtr());
+					TreeNode rightSib = rightNode.getNode(rightNode.rightSiblingPtr());
+					sibPg.contents = Arrays.copyOf(rightSib.toBytes(), sibPg.contents.length);
+					}
+					// delete page for the now-vacant node
 					pages.deletePage(deadPointer);
 					if (numElements() < Math.ceil(treeOrder/2.0)) {
 						// this internal node is now underflowed. Throw exception.

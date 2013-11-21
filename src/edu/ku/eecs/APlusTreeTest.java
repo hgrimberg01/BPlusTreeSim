@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -295,15 +296,21 @@ public class APlusTreeTest {
 	@Test
 	public void testLinkedListGenerationWithDeletions() throws Exception {
 		int numElements = sequentialElements;
-		LinkedList<int[]> referenceList = new LinkedList<int[]>();
+		ArrayList<Integer> referenceList = new ArrayList<Integer>();
 		for (int i = 0; i < numElements; i++) {
 			treeUnderTest.insert(i, i + 1);
-			referenceList.add(new int[] {i, i+1});
+			referenceList.add(i);
+		}
+		Random rd = new Random();
+		int numToDelete = rd.nextInt(numElements);
+		for (int i=0; i<numToDelete; i++) {
+			treeUnderTest.delete(i);
+			referenceList.remove(new Integer(i));
 		}
 		System.out.println(treeUnderTest.levelOrderTraverse());
 		LinkedList<int[]> generatedList = treeUnderTest.values();
-		for (int i=0; i< numElements;i++) {
-			assertArrayEquals(referenceList.get(i), generatedList.get(i));
+		for (int i=0; i< numElements-numToDelete;i++) {
+			assertArrayEquals(new int[] {referenceList.get(i), referenceList.get(i)+1}, generatedList.get(i));
 		}
 	}
 
