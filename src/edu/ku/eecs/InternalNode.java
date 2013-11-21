@@ -80,7 +80,8 @@ public class InternalNode extends TreeNode {
 			}
 			int tinyPage = pages.getNewPage(); Page tinyPg = pages.getIndexedPage(tinyPage);
 			int bigPage = pages.getNewPage(); Page bigPg = pages.getIndexedPage(bigPage);
-			tinyLeaf.siblingPtr(bigPage);
+			tinyLeaf.rightSiblingPtr(bigPage);
+			bigLeaf.leftSiblingPtr(tinyPage);
 			tinyPg.contents = Arrays.copyOf(tinyLeaf.toBytes(), tinyPg.contents.length);
 			bigPg.contents = Arrays.copyOf(bigLeaf.toBytes(), bigPg.contents.length);
 			

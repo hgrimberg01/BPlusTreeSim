@@ -12,7 +12,8 @@ import java.util.Arrays;
  *
  */
 public class LeafNode extends TreeNode {
-	private int siblingPtr;
+	private int leftSiblingPtr;
+	private int rightSiblingPtr;
 	
 	public LeafNode(PageTable pages, int order)
 	{
@@ -21,7 +22,8 @@ public class LeafNode extends TreeNode {
 		Arrays.fill(keys, -1);
 		pointers = new int[treeOrder];
 		Arrays.fill(pointers, -1);
-		siblingPtr = -1;
+		leftSiblingPtr = -1;
+		rightSiblingPtr = -1;
 	}
 
 	@Override
@@ -106,7 +108,7 @@ public class LeafNode extends TreeNode {
 		int keySize = 9;
 		int ptrSize = 6;
 		int siblingPtrSize = 4;
-		ByteBuffer buff = ByteBuffer.allocate(keySize * treeOrder + ptrSize * treeOrder + siblingPtrSize);
+		ByteBuffer buff = ByteBuffer.allocate(keySize * treeOrder + ptrSize * treeOrder + siblingPtrSize*2);
 		buff.order(ByteOrder.nativeOrder());
 		for (int i=0; i<keys.length; i++) {
 			buff.putInt(keys[i]);
@@ -114,7 +116,8 @@ public class LeafNode extends TreeNode {
 			buff.putInt(pointers[i]);
 			buff.position(buff.position()+(ptrSize-4));
 		}
-		buff.putInt(siblingPtr);
+		buff.putInt(leftSiblingPtr);
+		buff.putInt(rightSiblingPtr);
 		return buff.array();
 	}
 
@@ -130,11 +133,15 @@ public class LeafNode extends TreeNode {
 			pointers[i] = buff.getInt();
 			buff.position(buff.position()+(ptrSize-4));
 		}
-		siblingPtr = buff.getInt();
+		leftSiblingPtr = buff.getInt();
+		rightSiblingPtr = buff.getInt();
 	}
 	
-	public int siblingPtr() { return siblingPtr; }
-	public void siblingPtr(int ptr) { siblingPtr = ptr; }
+	public int leftSiblingPtr() { return leftSiblingPtr; }
+	public void leftSiblingPtr(int ptr) { leftSiblingPtr = ptr; }
+	
+	public int rightSiblingPtr() { return rightSiblingPtr; }
+	public void rightSiblingPtr(int ptr) { rightSiblingPtr = ptr; }
 
 	@Override
 	public int numElements() {
