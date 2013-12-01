@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="hgrimberg" name="edu.ku.eecs.db.APlusTree.APlusTreeTest" skipped="0" tests="9" time="0.117" timestamp="2013-12-01T20:22:15">
+  <properties>
+    <property name="java.vendor" value="Oracle Corporation" />
+    <property name="env.SESSION_MANAGER" value="local/hgrimberg:@/tmp/.ICE-unix/4514,unix/hgrimberg:/tmp/.ICE-unix/4514" />
+    <property name="env.IM_CONFIG_PHASE" value="1" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
+    <property name="env.GREP_OPTIONS" value="--color=auto" />
+    <property name="os.name" value="Linux" />
+    <property name="env.UPSTART_SESSION" value="unix:abstract=/com/ubuntu/upstart-session/1000/4398" />
+    <property name="sun.boot.class.path" value="/usr/lib/jvm/java-7-oracle/jre/lib/resources.jar:/usr/lib/jvm/java-7-oracle/jre/lib/rt.jar:/usr/lib/jvm/java-7-oracle/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-7-oracle/jre/lib/jsse.jar:/usr/lib/jvm/java-7-oracle/jre/lib/jce.jar:/usr/lib/jvm/java-7-oracle/jre/lib/charsets.jar:/usr/lib/jvm/java-7-oracle/jre/lib/jfr.jar:/usr/lib/jvm/java-7-oracle/jre/classes" />
+    <property name="env.PWD" value="/home/hgrimberg/git/BPlusTreeSim" />
+    <property name="sun.desktop" value="gnome" />
+    <property name="env.LANG" value="en_US.UTF-8" />
+    <property name="env.LESS" value="-R" />
+    <property name="java.vm.specification.vendor" value="Oracle Corporation" />
+    <property name="env.XDG_MENU_PREFIX" value="gnome-" />
+    <property name="ant.home" value="/usr/share/ant" />
+    <property name="java.runtime.version" value="1.7.0_45-b18" />
+    <property name="env.DEFAULTS_PATH" value="/usr/share/gconf/gnome.default.path" />
+    <property name="env.UPSTART_EVENTS" value="started xsession" />
+    <property name="env.XDG_VTNR" value="7" />
+    <property name="env.DISPLAY" value=":0" />
+    <property name="env.GJS_DEBUG_TOPICS" value="JS ERROR;JS LOG" />
+    <property name="user.name" value="hgrimberg" />
+    <property name="env._" value="/usr/bin/ant" />
+    <property name="env.WORKON_HOME" value="/home/hgrimberg/.virtualenvs" />
+    <property name="env.USER" value="hgrimberg" />
+    <property name="env.SHELL" value="/usr/bin/zsh" />
+    <property name="env.DESKTOP_SESSION" value="gnome" />
+    <property name="env.XDG_DATA_DIRS" value="/usr/share/gnome:/usr/local/share/:/usr/share/" />
+    <property name="env.NLSPATH" value="/usr/dt/lib/nls/msg/%L/%N.cat" />
+    <property name="env.GJS_DEBUG_OUTPUT" value="stderr" />
+    <property name="env.PATH" value="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/bin:/home/hgrimberg/arcanist/bin/" />
+    <property name="env.XDG_CURRENT_DESKTOP" value="GNOME" />
+    <property name="user.language" value="en" />
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-7-oracle/jre/lib/amd64" />
+    <property name="env.TEXTDOMAIN" value="im-config" />
+    <property name="env.UPSTART_JOB" value="gnome-session" />
+    <property name="ant.project.default-target" value="build" />
+    <property name="ant.project.name" value="BPlusTreeSim" />
+    <property name="env.LC_CTYPE" value="en_US.UTF-8" />
+    <property name="java.version" value="1.7.0_45" />
+    <property name="user.timezone" value="" />
+    <property name="env.DBUS_SESSION_BUS_ADDRESS" value="unix:abstract=/tmp/dbus-5MoDm0fIYK" />
+    <property name="sun.arch.data.model" value="64" />
+    <property name="env.SSH_AGENT_PID" value="4456" />
+    <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-7-oracle/jre/lib/endorsed" />
+    <property name="sun.cpu.isalist" value="" />
+    <property name="sun.jnu.encoding" value="UTF-8" />
+    <property name="file.encoding.pkg" value="sun.io" />
+    <property name="env.SHLVL" value="1" />
+    <property name="ECLIPSE_HOME" value="." />
+    <property name="file.separator" value="/" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="env.GNOME_DESKTOP_SESSION_ID" value="this-is-deprecated" />
+    <property name="java.class.version" value="51.0" />
+    <property name="env.GDMSESSION" value="gnome" />
+    <property name="user.country" value="US" />
+    <property name="env.GNOME_KEYRING_PID" value="4395" />
+    <property name="java.home" value="/usr/lib/jvm/java-7-oracle/jre" />
+    <property name="java.vm.info" value="mixed mode" />
+    <property name="env.LOGNAME" value="hgrimberg" />
+    <property name="ant.file" value="/home/hgrimberg/git/BPlusTreeSim/build.xml" />
+    <property name="os.version" value="3.11.0-13-generic" />
+    <property name="env.XD_HOME" value="/home/hgrimberg/spring-xd/xd/" />
+    <property name="path.separator" value=":" />
+    <property name="java.vm.version" value="24.45-b08" />
+    <property name="env.UPSTART_INSTANCE" value="" />
+    <property name="env.TEXTDOMAINDIR" value="/usr/share/locale/" />
+    <property name="ant.library.dir" value="/usr/share/ant/lib" />
+    <property name="env.VIRTUALENVWRAPPER_LOG_DIR" value="/home/hgrimberg/.virtualenvs" />
+    <property name="junit.output.dir" value="junit" />
+    <property name="env.SESSIONTYPE" value="gnome-session" />
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob" />
+    <property name="env.TERM" value="xterm" />
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
+    <property name="env.WINDOWPATH" value="7" />
+    <property name="ant.file.type.BPlusTreeSim" value="file" />
+    <property name="awt.toolkit" value="sun.awt.X11.XToolkit" />
+    <property name="env.LSCOLORS" value="Gxfxcxdxbxegedabagacad" />
+    <property name="env.GREP_COLOR" value="1;32" />
+    <property name="env.GDM_LANG" value="en_US" />
+    <property name="target" value="1.7" />
+    <property name="user.home" value="/home/hgrimberg" />
+    <property name="env.JOB" value="dbus" />
+    <property name="env.OLDPWD" value="/home/hgrimberg" />
+    <property name="java.specification.vendor" value="Oracle Corporation" />
+    <property name="env.WINDOWID" value="27262982" />
+    <property name="env.VTE_VERSION" value="3409" />
+    <property name="env.PAGER" value="less" />
+    <property name="java.vendor.url" value="http://java.oracle.com/" />
+    <property name="java.library.path" value="/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib" />
+    <property name="ant.file.BPlusTreeSim" value="/home/hgrimberg/git/BPlusTreeSim/build.xml" />
+    <property name="java.vm.vendor" value="Oracle Corporation" />
+    <property name="env.XDG_SEAT" value="seat0" />
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
+    <property name="java.class.path" value="/home/hgrimberg/git/BPlusTreeSim/target/classes:/home/hgrimberg/git/BPlusTreeSim/testlib/junit.jar:/home/hgrimberg/git/BPlusTreeSim/testlib/org.hamcrest.core_1.3.0.v201303031735.jar:/usr/share/ant/lib/junit.jar:/usr/share/java/ant-launcher-1.9.2.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/ant-junit.jar:/usr/share/ant/lib/ant-junit4.jar" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner edu.ku.eecs.db.APlusTree.APlusTreeTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/hgrimberg/git/BPlusTreeSim/junit/TEST-edu.ku.eecs.db.APlusTree.APlusTreeTest.xml crashfile=/home/hgrimberg/git/BPlusTreeSim/junitvmwatcher5421220754495547324.properties propsfile=/home/hgrimberg/git/BPlusTreeSim/junit4214474978952066068.properties" />
+    <property name="ant.version" value="Apache Ant(TM) version 1.9.2 compiled on July 14 2013" />
+    <property name="env.XDG_SESSION_ID" value="c2" />
+    <property name="env.XFILESEARCHPATH" value="/usr/dt/app-defaults/%L/Dt" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="env.VIRTUALENVWRAPPER_HOOK_DIR" value="/home/hgrimberg/.virtualenvs" />
+    <property name="ant.file.type" value="file" />
+    <property name="java.vm.specification.version" value="1.7" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="sun.os.patch.level" value="unknown" />
+    <property name="env.HOME" value="/home/hgrimberg" />
+    <property name="debuglevel" value="source,lines,vars" />
+    <property name="env.VIRTUALENVWRAPPER_PROJECT_FILENAME" value=".project" />
+    <property name="java.io.tmpdir" value="/tmp" />
+    <property name="projectHome" value="." />
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/" />
+    <property name="env.SSH_AUTH_SOCK" value="/run/user/1000/keyring-Bj8BJt/ssh" />
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment" />
+    <property name="os.arch" value="amd64" />
+    <property name="env.INSTANCE" value="" />
+    <property name="env.XDG_RUNTIME_DIR" value="/run/user/1000" />
+    <property name="java.ext.dirs" value="/usr/lib/jvm/java-7-oracle/jre/lib/ext:/usr/java/packages/lib/ext" />
+    <property name="env.SESSION" value="gnome" />
+    <property name="env.XAUTHORITY" value="/var/run/gdm/auth-for-hgrimberg-KsJuoU/database" />
+    <property name="user.dir" value="/home/hgrimberg/git/BPlusTreeSim" />
+    <property name="env.MANDATORY_PATH" value="/usr/share/gconf/gnome.mandatory.path" />
+    <property name="line.separator" value="&#xa;" />
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM" />
+    <property name="env.COLORTERM" value="gnome-terminal" />
+    <property name="env.EDITOR" value="/usr/bin/vim" />
+    <property name="basedir" value="/home/hgrimberg/git/BPlusTreeSim" />
+    <property name="ant.java.version" value="1.7" />
+    <property name="ant.core.lib" value="/usr/share/ant/lib/ant.jar" />
+    <property name="env.USERNAME" value="hgrimberg" />
+    <property name="source" value="1.7" />
+    <property name="file.encoding" value="UTF-8" />
+    <property name="env.GPG_AGENT_INFO" value="/run/user/1000/keyring-Bj8BJt/gpg:0:1" />
+    <property name="java.specification.version" value="1.7" />
+    <property name="env.GNOME_KEYRING_CONTROL" value="/run/user/1000/keyring-Bj8BJt" />
+    <property name="ant.project.invoked-targets" value="APlusTreeTest" />
+    <property name="env.XDG_CONFIG_DIRS" value="/etc/xdg/xdg-gnome:/usr/share/upstart/xdg:/etc/xdg" />
+  </properties>
+  <testcase classname="edu.ku.eecs.db.APlusTree.APlusTreeTest" name="testDescendingDelete" time="0.016" />
+  <testcase classname="edu.ku.eecs.db.APlusTree.APlusTreeTest" name="testReverseInsert" time="0.005" />
+  <testcase classname="edu.ku.eecs.db.APlusTree.APlusTreeTest" name="testInternalDeleteBorrowRight" time="0.003" />
+  <testcase classname="edu.ku.eecs.db.APlusTree.APlusTreeTest" name="testSequentialInsert" time="0.004" />
+  <testcase classname="edu.ku.eecs.db.APlusTree.APlusTreeTest" name="testInternalDeleteBorrowLeft" time="0.003" />
+  <testcase classname="edu.ku.eecs.db.APlusTree.APlusTreeTest" name="testRandomInsert" time="0.004" />
+  <testcase classname="edu.ku.eecs.db.APlusTree.APlusTreeTest" name="testInsert" time="0.003" />
+  <testcase classname="edu.ku.eecs.db.APlusTree.APlusTreeTest" name="testAscendingDelete" time="0.005" />
+  <testcase classname="edu.ku.eecs.db.APlusTree.APlusTreeTest" name="testSearch" time="0.017" />
+  <system-out><![CDATA[21, 9(22)
+19, 5(20)
+14, 13(8)
+23, 1(24), 3(18)
+16, 7(12)
+10, 11(6)
+4, 15(2)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+12(13), 13(14)
+14(15), 15(16)
+16(17), 17(18)
+
+19, 5(20), 9(14)
+23, 1(24), 3(18)
+16, 7(12)
+10, 11(6), 13(4)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+12(13), 13(14)
+14(15), 15(16), 16(17)
+
+19, 5(20), 9(14)
+23, 1(24), 3(18)
+16, 7(12)
+10, 11(6), 13(4)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+12(13), 13(14)
+14(15), 15(16)
+
+19, 5(20), 9(14)
+23, 1(24), 3(18)
+16, 7(12)
+10, 11(6)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+12(13), 13(14), 14(15)
+
+19, 5(20), 9(14)
+23, 1(24), 3(18)
+16, 7(12)
+10, 11(6)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+12(13), 13(14)
+
+19, 5(20)
+23, 1(24), 3(18)
+16, 7(12), 9(10)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12), 12(13)
+
+19, 5(20)
+23, 1(24), 3(18)
+16, 7(12), 9(10)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+
+19, 5(20)
+23, 1(24), 3(18)
+16, 7(12)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10), 10(11)
+
+19, 5(20)
+23, 1(24), 3(18)
+16, 7(12)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+
+19, 3(20)
+23, 1(24)
+18, 5(16)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8), 8(9)
+
+19, 3(20)
+23, 1(24)
+18, 5(16)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+
+23, 1(24), 3(18)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6), 6(7)
+
+23, 1(24), 3(18)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+
+23, 1(24)
+0(1), 1(2)
+2(3), 3(4), 4(5)
+
+23, 1(24)
+0(1), 1(2)
+2(3), 3(4)
+
+0(1), 1(2), 2(3)
+
+0(1), 1(2)
+
+0(1)
+
+
+
+21, 9(22)
+19, 5(20)
+14, 13(8)
+23, 1(24), 3(18)
+16, 7(12)
+10, 11(6)
+4, 15(2)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+12(13), 13(14)
+14(15), 15(16)
+16(17), 17(18)
+
+7, 3(13)
+1, 1(3)
+5, 5(9), 7(11)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10), 10(11)
+
+7, 5(13)
+1, 3(5)
+9, 7(11)
+1(2), 2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10), 10(11)
+
+21, 7(22)
+7, 3(13)
+19, 11(20)
+1, 1(3)
+5, 5(9)
+11, 9(15)
+17, 13(23), 15(24)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+12(13), 13(14)
+14(15), 15(16)
+16(17), 17(18)
+
+7, 7(14)
+1, 3(5), 5(9)
+11, 9(12)
+1(2), 2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+
+7, 6(15), 11(16)
+5, 2(11), 4(12)
+9, 9(10)
+13, 14(14)
+0(1), 1(2), 2(3)
+3(4), 4(5)
+5(6), 6(7)
+7(8), 8(9), 9(10)
+10(11), 11(12)
+12(13), 13(14), 14(15)
+15(16), 16(17), 17(18)
+
+21, 10(22)
+7, 6(13)
+19, 14(20)
+1, 4(3)
+5, 8(9)
+11, 12(15)
+17, 16(18)
+3(4), 4(5)
+5(6), 6(7)
+7(8), 8(9)
+9(10), 10(11)
+11(12), 12(13)
+13(14), 14(15)
+15(16), 16(17)
+17(18), 18(19)
+
+21, 7(22)
+7, 3(13)
+19, 11(20)
+1, 1(3)
+5, 5(9)
+11, 9(15)
+17, 13(23), 15(24)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8)
+8(9), 9(10)
+10(11), 11(12)
+12(13), 13(14)
+14(15), 15(16)
+16(17), 17(18)
+
+41, 16(42), 33(24)
+39, 5(61), 11(62)
+28, 23(47), 29(48)
+55, 38(56), 42(22)
+17, 1(49), 3(50)
+59, 8(60)
+51, 14(52)
+25, 19(43), 21(44)
+57, 25(58), 27(45)
+46, 31(11)
+31, 35(53)
+54, 40(20)
+33, 44(34), 46(16)
+0(1), 1(2)
+2(3), 3(4)
+4(5), 5(6)
+6(7), 7(8), 8(9)
+9(10), 10(11), 11(12)
+12(13), 13(14), 14(15)
+15(16), 16(17)
+17(18), 18(19), 19(20)
+20(21), 21(22)
+22(23), 23(24)
+24(25), 25(26)
+26(27), 27(28)
+28(29), 29(30)
+30(31), 31(32)
+32(33), 33(34)
+34(35), 35(36)
+36(37), 37(38), 38(39)
+39(40), 40(41)
+41(42), 42(43)
+43(44), 44(45)
+45(46), 46(47)
+47(48), 48(49), 49(50)
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

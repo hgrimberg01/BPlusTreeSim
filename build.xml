@@ -7,15 +7,15 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="BPlusTreeSim">
 	<property environment="env" />
-	<property name="ECLIPSE_HOME" value="/opt/eclipse/" />
+	<property name="ECLIPSE_HOME" value="." />
 	<property name="junit.output.dir" value="junit" />
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.7" />
 	<property name="source" value="1.7" />
 	<property name="projectHome" value="." />
 	<path id="JUnit 4.libraryclasspath">
-		<pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.11.0.v201303080030/junit.jar" />
-		<pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.3.0.v201303031735.jar" />
+		<pathelement location="${ECLIPSE_HOME}/testlib/junit.jar" />
+		<pathelement location="${ECLIPSE_HOME}/testlib/org.hamcrest.core_1.3.0.v201303031735.jar" />
 	</path>
 	<path id="BPlusTreeSim.classpath">
 		<pathelement location="target/classes" />
@@ -60,7 +60,7 @@
 			<classpath refid="BPlusTreeSim.classpath" />
 		</junit>
 	</target>
-	<target name="BPlusTreeSim" depends="build" >
+	<target name="BPlusTreeSim" depends="build">
 		<java classname="edu.ku.eecs.db.BPlusTreeSim" failonerror="true" fork="yes">
 			<arg line="input.txt" />
 			<arg line="output.txt" />
@@ -99,6 +99,18 @@
 			</fileset>
 			<report format="frames" todir="${junit.output.dir}" />
 		</junitreport>
+	</target>
+
+	<target name="create_jar" depends="build">
+        <jar destfile="${ECLIPSE_HOME}/bplustree.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="edu.ku.eecs.db.BPlusTreeSim"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${ECLIPSE_HOME}/target/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="${ECLIPSE_HOME}/testlib/junit.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${ECLIPSE_HOME}/testlib/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+        </jar>
 	</target>
 
 
