@@ -13,6 +13,7 @@ import edu.ku.eecs.db.disk.TreeNode;
 
 /**
  * @author QtotheC http://cheezburger.com/7902608384
+ * Main BPluss tree implementation
  */
 public class APlusTree {
 	/**

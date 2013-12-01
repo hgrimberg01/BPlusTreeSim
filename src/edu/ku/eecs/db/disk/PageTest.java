@@ -5,7 +5,16 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Unit test for page class.
+ * 
+ * @author hgrimberg
+ * 
+ */
 public class PageTest {
+	/**
+	 * 
+	 */
 	Page pageUnderTest;
 
 	/**
@@ -28,6 +37,9 @@ public class PageTest {
 
 	}
 
+	/**
+ * 
+ */
 	@Test
 	public void testPageInt() {
 		int size = pageUnderTest.contents.length;
@@ -41,6 +53,9 @@ public class PageTest {
 		}
 	}
 
+	/**
+ * 
+ */
 	@Test
 	public void testPurge() {
 		pageUnderTest.purge();

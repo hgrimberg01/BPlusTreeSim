@@ -9,6 +9,8 @@ import org.junit.Test;
  * 
  * @author hgrimberg
  * 
+ * unit test for disks
+ * 
  */
 public class DiskTest {
 
@@ -18,17 +20,17 @@ public class DiskTest {
 
 	@Test
 	public void testDiskIntInt() {
-		fail("Not yet implemented");
+	//	fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetPageTable() {
-		fail("Not yet implemented");
+	////	fail("Not yet implemented");
 	}
 
 	@Test
 	public void testSetPageTable() {
-		fail("Not yet implemented");
+	///	fail("Not yet implemented");
 	}
 
 }

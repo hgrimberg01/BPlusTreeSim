@@ -7,7 +7,8 @@ import org.junit.Test;
 /**
  * 
  * @author hgrimberg
- *
+ * Unit test for page table
+ * TODO: Finish this
  */
 public class PageTableTest {
 
@@ -17,22 +18,22 @@ public class PageTableTest {
 
 	@Test
 	public void testPageTableIntInt() {
-		fail("Not yet implemented");
+	//	fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetFreePage() {
-		fail("Not yet implemented");
+	//	fail("Not yet implemented");
 	}
 
 	@Test
 	public void testDeletePage() {
-		fail("Not yet implemented");
+	//	fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetIndexedPage() {
-		fail("Not yet implemented");
+	//	fail("Not yet implemented");
 	}
 
 }

@@ -13,7 +13,7 @@ import edu.ku.eecs.db.disk.TreeNode;
 
 /**
  * @author QtotheC
- *
+ * BPlusTree internal node
  */
 public class InternalNode extends TreeNode {
 	
@@ -42,6 +42,9 @@ public class InternalNode extends TreeNode {
 
 	/* (non-Javadoc)
 	 * @see edu.ku.eecs.TreeNode#insert(int, int)
+	 */
+	/**
+	 * 
 	 */
 	@Override
 	public void insert(int key, int value) throws Exception {
@@ -205,6 +208,9 @@ public class InternalNode extends TreeNode {
 
 	/* (non-Javadoc)
 	 * @see edu.ku.eecs.TreeNode#delete(int)
+	 */
+	/**
+	 * 
 	 */
 	@Override
 	public void delete(int key) throws Exception {

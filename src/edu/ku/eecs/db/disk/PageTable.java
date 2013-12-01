@@ -7,6 +7,8 @@ import java.util.Queue;
  * 
  * @author hgrimberg
  * 
+ * Simulates a page table of a given page size with a set number of pages. 
+ *
  */
 public class PageTable {
 	/**
@@ -56,8 +58,8 @@ public class PageTable {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Allocates a new page (if available)
+	 * @return Pointer to the newly allocated page
 	 * @throws Exception
 	 */
 	public Page getFreePage() throws Exception {
@@ -71,7 +73,12 @@ public class PageTable {
 		}
 
 	}
-	
+	/**
+	 * Allocates a new page (if available)
+	 * 
+	 * @return Index of free page
+	 * @throws Exception
+	 */
 	public int getNewPage() throws Exception {
 		Integer freeIndex = free.poll();
 		used.add(freeIndex);

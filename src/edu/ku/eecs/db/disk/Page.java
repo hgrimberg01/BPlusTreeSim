@@ -4,6 +4,9 @@ package edu.ku.eecs.db.disk;
  * 
  * @author hgrimberg
  * 
+ * Class that simulates a single page and contains a byte array to hold
+ * contents.
+ * 
  */
 
 public class Page {

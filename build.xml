@@ -7,7 +7,7 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="BPlusTreeSim">
 	<property environment="env" />
-	<property name="ECLIPSE_HOME" value="/opt/eclipse" />
+	<property name="ECLIPSE_HOME" value="/opt/eclipse/" />
 	<property name="junit.output.dir" value="junit" />
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.7" />
@@ -60,7 +60,7 @@
 			<classpath refid="BPlusTreeSim.classpath" />
 		</junit>
 	</target>
-	<target name="BPlusTreeSim">
+	<target name="BPlusTreeSim" depends="build" >
 		<java classname="edu.ku.eecs.db.BPlusTreeSim" failonerror="true" fork="yes">
 			<arg line="input.txt" />
 			<arg line="output.txt" />

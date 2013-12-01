@@ -2,7 +2,7 @@ package edu.ku.eecs.db;
 /**
  * 
  * @author hgrimberg
- *
+ * Instruction class for demo processing
  */
 public class Instruction {
 	public static enum Type {

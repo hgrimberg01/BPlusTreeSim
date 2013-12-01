@@ -4,9 +4,20 @@ package edu.ku.eecs.db.disk;
  * 
  * @author hgrimberg
  * 
+ * Class that simulates a disk. A disk contains a page table of a given 
+ * capacity and page size.
+ * 
  */
 public class Disk {
+	
+	/**
+	 * 
+	 */
 	private PageTable pageTable;
+	
+	/**
+	 * 
+	 */
 	private static final int DEFAULT_PAGE_SIZE = 500;
 
 	/**

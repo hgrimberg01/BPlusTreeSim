@@ -16,7 +16,7 @@ import edu.ku.eecs.db.APlusTree.APlusTree;
 
 /**
  * @author hgrimberg
- * 
+ * Main simulator launcher
  */
 public class BPlusTreeSim {
 
