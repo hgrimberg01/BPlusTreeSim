@@ -1,4 +1,4 @@
-package edu.ku.eecs;
+package edu.ku.eecs.db.disk;
 
 import static org.junit.Assert.*;
 

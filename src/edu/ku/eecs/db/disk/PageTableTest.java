@@ -1,33 +1,37 @@
-package edu.ku.eecs;
+package edu.ku.eecs.db.disk;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-
 /**
  * 
  * @author hgrimberg
- * 
+ *
  */
-public class DiskTest {
+public class PageTableTest {
 
 	@Before
 	public void setUp() throws Exception {
 	}
 
 	@Test
-	public void testDiskIntInt() {
+	public void testPageTableIntInt() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testGetPageTable() {
+	public void testGetFreePage() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testSetPageTable() {
+	public void testDeletePage() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetIndexedPage() {
 		fail("Not yet implemented");
 	}
 

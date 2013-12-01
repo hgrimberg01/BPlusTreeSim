@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.ku.eecs;
+package edu.ku.eecs.db.APlusTree;
 
 import static org.junit.Assert.*;
 
@@ -27,7 +27,7 @@ public class APlusTreeTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.ku.eecs.APlusTree#insert(int, int)}.
+	 * Test method for {@link edu.ku.eecs.db.APlusTree.APlusTree#insert(int, int)}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -99,7 +99,7 @@ public class APlusTreeTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.ku.eecs.APlusTree#insert(int, int)}.
+	 * Test method for {@link edu.ku.eecs.db.APlusTree.APlusTree#insert(int, int)}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -117,7 +117,7 @@ public class APlusTreeTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.ku.eecs.APlusTree#insert(int, int)}.
+	 * Test method for {@link edu.ku.eecs.db.APlusTree.APlusTree#insert(int, int)}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -134,7 +134,7 @@ public class APlusTreeTest {
 	}
 	
 	/**
-	 * Test method for {@link edu.ku.eecs.APlusTree#insert(int, int)}.
+	 * Test method for {@link edu.ku.eecs.db.APlusTree.APlusTree#insert(int, int)}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -156,7 +156,7 @@ public class APlusTreeTest {
 	}
 
 	/**
-	 * Test method for {@link edu.ku.eecs.APlusTree#search(int)}.
+	 * Test method for {@link edu.ku.eecs.db.APlusTree.APlusTree#search(int)}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -183,7 +183,7 @@ public class APlusTreeTest {
 	}
 
 	/**
-	 * Test method for {@link edu.ku.eecs.APlusTree#delete(int)}.
+	 * Test method for {@link edu.ku.eecs.db.APlusTree.APlusTree#delete(int)}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -204,7 +204,7 @@ public class APlusTreeTest {
 	}
 
 	/**
-	 * Test method for {@link edu.ku.eecs.APlusTree#delete(int)}.
+	 * Test method for {@link edu.ku.eecs.db.APlusTree.APlusTree#delete(int)}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -224,7 +224,7 @@ public class APlusTreeTest {
 	}
 
 	/**
-	 * Test method for {@link edu.ku.eecs.APlusTree#delete(int)}.
+	 * Test method for {@link edu.ku.eecs.db.APlusTree.APlusTree#delete(int)}.
 	 * @throws Exception 
 	 */
 	@Test
@@ -243,7 +243,7 @@ public class APlusTreeTest {
 	}
 
 	/**
-	 * Test method for {@link edu.ku.eecs.APlusTree#delete(int)}.
+	 * Test method for {@link edu.ku.eecs.db.APlusTree.APlusTree#delete(int)}.
 	 * @throws Exception 
 	 */
 	@Test

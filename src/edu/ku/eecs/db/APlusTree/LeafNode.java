@@ -1,11 +1,14 @@
 /**
  * 
  */
-package edu.ku.eecs;
+package edu.ku.eecs.db.APlusTree;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
+
+import edu.ku.eecs.db.disk.PageTable;
+import edu.ku.eecs.db.disk.TreeNode;
 
 /**
  * @author QtotheC
@@ -120,7 +123,7 @@ public class LeafNode extends TreeNode {
 	}
 
 	@Override
-	protected void unflatten(byte[] array) {
+	public void unflatten(byte[] array) {
 		int keySize = 9;
 		int ptrSize = 6;
 		ByteBuffer buff = ByteBuffer.wrap(array);

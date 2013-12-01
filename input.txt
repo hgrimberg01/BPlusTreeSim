@@ -1,0 +1,9 @@
+Insert 3, 100
+Insert 5, 200
+Insert 7, 300
+Insert 4, 1400
+Insert 8, 2400
+Insert 9, 3500
+Insert 1, 3500
+Search 3
+Output
